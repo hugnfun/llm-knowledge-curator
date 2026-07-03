@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Knowledge Curator</title>
+<link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div id="app">
+  <nav class="nav-bar">
+    <div class="nav-brand">
+      <span class="logo">LLKC</span>
+      <span class="brand-sub">Content Factory</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="tab active" data-view="materials">Material Pool</button>
+      <button class="tab" data-view="pipeline">Pipeline</button>
+      <button class="tab" data-view="thinking">Daily Thinking</button>
+      <button class="tab" data-view="drafts">Drafts</button>
+    </div>
+    <div class="nav-stats" id="nav-stats"></div>
+  </nav>
+
+  <main id="content">
+    <!-- Material Pool View -->
+    <section id="view-materials" class="view active">
+      <div class="view-header">
+        <h2>Material Pool</h2>
+        <div class="filters">
+          <select id="filter-source" class="filter-select">
+            <option value="">All Sources</option>
+            <option value="clippings">Clippings</option>
+            <option value="telegram">Telegram</option>
+            <option value="x-bookmarks">X-Bookmarks</option>
+          </select>
+          <input type="text" id="filter-search" class="filter-input" placeholder="Search...">
+        </div>
+      </div>
+      <div class="kanban-board" id="materials-board"></div>
+    </section>
+
+    <!-- Pipeline View -->
+    <section id="view-pipeline" class="view">
+      <div class="view-header">
+        <h2>Pipeline</h2>
+        <div class="pipeline-actions">
+          <button class="btn btn-primary" id="btn-run-incremental">Run Incremental</button>
+          <button class="btn" id="btn-run-classify">Classify Pending</button>
+          <button class="btn" id="btn-run-pool">Pool Items</button>
+        </div>
+      </div>
+      <div class="pipeline-board" id="pipeline-board"></div>
+    </section>
+
+    <!-- Daily Thinking View -->
+    <section id="view-thinking" class="view">
+      <div class="view-header">
+        <h2>Daily Thinking</h2>
+        <div class="thinking-controls">
+          <input type="date" id="thinking-date" class="filter-input">
+          <button class="btn btn-primary" id="btn-generate-thinking">Generate</button>
+        </div>
+      </div>
+      <div class="thinking-layout">
+        <div class="thinking-seeds" id="thinking-seeds"></div>
+        <div class="thinking-editor">
+          <textarea id="free-write" placeholder="Write your thoughts here..." rows="20"></textarea>
+          <button class="btn btn-primary" id="btn-save-freewrite">Save Free Write</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Drafts View -->
+    <section id="view-drafts" class="view">
+      <div class="view-header">
+        <h2>Drafts</h2>
+        <div class="draft-actions">
+          <input type="date" id="draft-date" class="filter-input">
+          <button class="btn btn-primary" id="btn-generate-drafts">Generate Drafts</button>
+        </div>
+      </div>
+      <div class="drafts-list" id="drafts-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+</div>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

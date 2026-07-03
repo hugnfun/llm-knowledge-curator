@@ -1,0 +1,114 @@
+/* LLKC plugin styles */
+.llkc-panel {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.llkc-section {
+  margin-bottom: 16px;
+  padding: 10px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+}
+.llkc-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.llkc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+}
+.llkc-row .llkc-label {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.llkc-row .llkc-value {
+  font-weight: 500;
+  color: var(--text-normal);
+}
+.llkc-button {
+  display: inline-block;
+  width: 100%;
+  margin: 4px 0;
+  padding: 8px 12px;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+}
+.llkc-button:hover {
+  background: var(--interactive-accent-hover);
+}
+.llkc-button:disabled {
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+.llkc-button-secondary {
+  background: var(--background-modifier-border);
+  color: var(--text-normal);
+}
+.llkc-button-secondary:hover {
+  background: var(--background-modifier-border-hover);
+}
+.llkc-status {
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.llkc-status.ok {
+  background: rgba(var(--color-green-rgb), 0.15);
+  color: var(--color-green);
+}
+.llkc-status.warn {
+  background: rgba(var(--color-yellow-rgb), 0.15);
+  color: var(--color-yellow);
+}
+.llkc-status.error {
+  background: rgba(var(--color-red-rgb), 0.15);
+  color: var(--color-red);
+}
+.llkc-status.info {
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+}
+.llkc-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  margin: 0 4px 2px 0;
+  font-size: 11px;
+  background: var(--background-modifier-border);
+  border-radius: 3px;
+  color: var(--text-muted);
+}
+.llkc-tag.high { background: rgba(var(--color-red-rgb), 0.2); color: var(--color-red); }
+.llkc-tag.telegram { background: rgba(var(--color-blue-rgb), 0.15); color: var(--color-blue); }
+.llkc-tag.clippings { background: rgba(var(--color-purple-rgb), 0.15); color: var(--color-purple); }
+.llkc-tag.x-bookmarks { background: rgba(var(--color-green-rgb), 0.15); color: var(--color-green); }
+.llkc-loading {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.llkc-pre {
+  font-family: var(--font-monospace);
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--background-primary);
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin: 4px 0;
+}

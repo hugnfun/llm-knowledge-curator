@@ -1,0 +1,10 @@
+{
+  "id": "llkc",
+  "name": "LLM Knowledge Curator",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "LLM 知识库工作台:在 Obsidian 右侧面板直接调 daily_thinking / writer / parser / stats,无需切到终端。所有能力来自本地 Python MCP server。",
+  "author": "Z Hugh",
+  "authorUrl": "",
+  "isDesktopOnly": true
+}
