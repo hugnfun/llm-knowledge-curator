@@ -1,0 +1,16 @@
+# Extra deps for URL ingest (Step 1+2 of ContentOS七步全链路 v2)
+# Install with: pip3 install --user -r requirements-ingest.txt
+
+httpx>=0.27
+trafilatura>=2.0
+# lxml + regex must be arm64-native on Apple Silicon; if imports fail:
+#   ARCHFLAGS="-arch arm64" pip3 install --user --force-reinstall --no-cache-dir --no-binary=lxml,regex lxml regex
+lxml>=6.0
+regex
+
+# WeChat article extraction (CLI, installed separately with uv):
+#   uv tool install wechat-article-to-markdown
+#   uv tool run --from camoufox camoufox fetch   # first-time browser install
+
+# Xiaohongshu + Douyin require OpenCLI and a logged-in Chrome session:
+#   opencli doctor

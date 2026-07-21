@@ -14,6 +14,7 @@ from pydantic import BaseModel
 from .. import config, db
 from ..models import STAGE_ORDER, PipelineStage
 from ..connectors import obsidian_inbox
+from ..connectors import url_ingest
 from ..stages import parser as parser_stage
 from ..stages import write_back as write_back_stage
 from ..stages import daily_thinking as daily_thinking_stage
@@ -246,6 +247,33 @@ def scan_inbox():
     units = obsidian_inbox.scan_inbox(persist=True)
     summary = obsidian_inbox.write_index(units)
     return {"units": len(units), "summary": summary}
+
+
+# --- URL Ingest ---
+
+class UrlIngestRequest(BaseModel):
+    url: str
+    note: Optional[str] = None
+    auto_classify: bool = False
+
+
+@app.post("/api/ingest/url")
+def ingest_url(body: UrlIngestRequest):
+    res = url_ingest.ingest_url(body.url)
+    if not res.ok:
+        return {"ok": False, "error": res.error, "source_type": res.source_type}
+    # Optionally trigger classify on this unit right away
+    if body.auto_classify and res.unit_id:
+        try:
+            parser_stage.run()
+        except Exception as e:
+            return {**res.to_dict(), "classify_error": str(e)}
+    return res.to_dict()
+
+
+@app.get("/api/ingest/classify_url")
+def classify_url_only(url: str):
+    return {"url": url, "source_type": url_ingest.classify_url(url)}
 
 
 # --- Health ---
