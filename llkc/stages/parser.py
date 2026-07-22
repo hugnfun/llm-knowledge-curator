@@ -40,7 +40,7 @@ def classify_unit(unit: dict) -> dict:
             f"- source_path: {unit['source_path']}\n"
             f"- char_len: {unit['char_len']}\n\n"
             f"## \u5185\u5bb9\n\n{content}\n\n---\n\n"
-            f"\u6309 v0.2 \u89c4\u8303\u5224\u522b,**\u53ea\u8fd4\u56de\u4e00\u4e2a JSON \u5bf9\u8c61**"
+            f"\u6309 v0.3 \u51b3\u7b56\u6811\u89c4\u8303\u5224\u522b,**\u53ea\u8fd4\u56de\u4e00\u4e2a JSON \u5bf9\u8c61**"
         )},
     ]
     result = call_llm(messages, temperature=0.2, max_tokens=800,

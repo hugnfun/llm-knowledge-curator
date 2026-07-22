@@ -21,7 +21,7 @@ from urllib import request, error
 PROJ = Path(os.path.expanduser("~/Documents/Project/llm-knowledge-curator"))
 OUT = PROJ / "output"
 OUT.mkdir(parents=True, exist_ok=True)
-PROMPT_PATH = PROJ / "prompts" / "parser_v0.2.md"
+PROMPT_PATH = PROJ / "prompts" / "parser_v0.3.md"
 
 API_BASE = "https://ark.cn-beijing.volces.com/api/coding/v3"
 API_KEY = "5321a60a-2cdd-440f-a730-37787d642c13"
@@ -92,7 +92,7 @@ def call_llm(content: str, unit_meta: dict, attempt: int = 0) -> dict:
                     f"- char_len: {unit_meta['char_len']}\n\n"
                     f"## 内容\n\n{content}\n\n"
                     f"---\n\n"
-                    f"按 v0.2 规范判别,**只返回一个 JSON 对象**,不要附加解释/markdown 代码块。"
+                    f"按 v0.3 决策树规范判别,**只返回一个 JSON 对象**,不要附加解释/markdown 代码块。"
                 ),
             },
         ],

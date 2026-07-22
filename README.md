@@ -57,7 +57,8 @@ llm-knowledge-curator/
 │   ├── css/app.css
 │   └── js/app.js
 ├── prompts/                     # LLM prompts
-│   ├── parser_v0.2.md
+│   ├── parser_v0.2.md          # Previous baseline retained for evaluation
+│   └── parser_v0.3.md          # Active decision-tree classifier prompt
 │   └── writer_v0.1.md
 ├── output/                      # Runtime data (gitignored)
 ├── obsidian-plugin/             # Obsidian plugin (kept as-is)
