@@ -45,3 +45,8 @@ Thumbs.db
 # Debug
 /tmp/writer_raw_last.txt
 /tmp/writer_repaired_last.txt
+/logs/
+
+# URL Ingest vendored third-party (rehydrate via `git clone` when needed)
+vendor/
+/tmp/llkc_ingest/
