@@ -3,6 +3,9 @@
 # Run: ingest pending URLs -> scan inbox -> classify new -> pool to vault
 set -euo pipefail
 
+# cron has a minimal PATH; include the project's Python/OpenCLI locations.
+export PATH="/Library/Frameworks/Python.framework/Versions/3.13/bin:$HOME/.npm-global/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin"
+
 PROJ="$HOME/Documents/Project/llm-knowledge-curator"
 VAULT="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/LLM知识库"
 LOG_DIR="$PROJ/output/cron_logs"

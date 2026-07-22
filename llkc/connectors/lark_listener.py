@@ -6,6 +6,7 @@ import html
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import threading
@@ -175,17 +176,30 @@ def run_listener(
     )
     stderr_thread.start()
 
-    deadline = time.monotonic() + ready_timeout
-    while not ready.wait(0.1):
-        if process.poll() is not None:
-            detail = "\n".join(stderr_lines[-20:]) or f"exit code {process.returncode}"
-            raise RuntimeError(f"Feishu event listener failed before ready:\n{detail}")
-        if time.monotonic() >= deadline:
-            process.terminate()
-            raise RuntimeError(f"Feishu event listener was not ready within {ready_timeout}s")
-
     stats = {"events": 0, "captured": 0, "duplicates": 0, "invalid": 0}
+    previous_sigterm = None
+
+    def request_graceful_stop(_signum, _frame):
+        if process.stdin is not None and not process.stdin.closed:
+            try:
+                process.stdin.close()
+            except OSError:
+                pass
+
     try:
+        deadline = time.monotonic() + ready_timeout
+        while not ready.wait(0.1):
+            if process.poll() is not None:
+                detail = "\n".join(stderr_lines[-20:]) or f"exit code {process.returncode}"
+                raise RuntimeError(f"Feishu event listener failed before ready:\n{detail}")
+            if time.monotonic() >= deadline:
+                process.terminate()
+                raise RuntimeError(f"Feishu event listener was not ready within {ready_timeout}s")
+
+        if threading.current_thread() is threading.main_thread():
+            previous_sigterm = signal.getsignal(signal.SIGTERM)
+            signal.signal(signal.SIGTERM, request_graceful_stop)
+
         for line in process.stdout:
             if not line.strip():
                 continue
@@ -217,6 +231,8 @@ def run_listener(
         for stream in (process.stdin, process.stdout, process.stderr):
             if stream is not None and not stream.closed:
                 stream.close()
+        if previous_sigterm is not None:
+            signal.signal(signal.SIGTERM, previous_sigterm)
 
     if return_code != 0:
         detail = "\n".join(stderr_lines[-20:])

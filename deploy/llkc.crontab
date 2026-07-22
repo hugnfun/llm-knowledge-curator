@@ -1,0 +1,2 @@
+# LLM Knowledge Curator v2 incremental pipeline: daily at 06:00 local time.
+0 6 * * * /bin/bash "/Users/aicer/Documents/Project/llm-knowledge-curator/scripts/cron_incremental_v2.sh"

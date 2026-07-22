@@ -1,8 +1,10 @@
 import json
 import os
+import signal
 import sys
 import tempfile
 import textwrap
+import threading
 import unittest
 from pathlib import Path
 
@@ -105,6 +107,32 @@ class LarkCaptureTests(unittest.TestCase):
         )
         self.assertEqual(result["events"], 1)
         self.assertEqual(result["captured"], 1)
+
+    def test_sigterm_closes_child_stdin_for_graceful_exit(self):
+        fake_cli = Path(self.temp_dir.name) / "blocking-lark-cli"
+        fake_cli.write_text(
+            textwrap.dedent(
+                f"""\
+                #!{sys.executable}
+                import sys
+                print('[event] ready event_key=im.message.receive_v1', file=sys.stderr, flush=True)
+                sys.stdin.read()
+                print('[event] exited — received 0 event(s) (reason: signal)', file=sys.stderr, flush=True)
+                """
+            ),
+            encoding="utf-8",
+        )
+        os.chmod(fake_cli, 0o755)
+
+        timer = threading.Timer(0.5, lambda: os.kill(os.getpid(), signal.SIGTERM))
+        timer.start()
+        try:
+            result = lark_listener.run_listener(
+                lark_cli=str(fake_cli), ready_timeout=2, db_path=self.db_path
+            )
+        finally:
+            timer.cancel()
+        self.assertEqual(result["events"], 0)
 
 
 if __name__ == "__main__":

@@ -23,6 +23,8 @@ python3 scripts/cli.py lark-listen --timeout 30s
 
 不要用 `< /dev/null` 或 `nohup ... </dev/null` 启动：`lark-cli event consume` 把 stdin EOF 视为优雅退出信号。服务停止时应发送 SIGTERM；不要使用 `kill -9`，否则可能跳过服务端订阅清理。
 
+仓库内的 `deploy/com.llkc.lark-url-listener.plist` 是 macOS LaunchAgent 配置：常驻监听、失败后重启，并把日志写到 `output/lark_listener.*.log`。
+
 ## 可选范围限制
 
 在运行环境设置逗号分隔的 allowlist：
@@ -50,3 +52,5 @@ python3 scripts/cli.py incremental
 ```
 
 `pipeline.run_incremental()` 的顺序是：pending URL ingest → inbox scan → classify → pool。单条 URL 失败不会阻塞批次；失败会重试，默认第 3 次失败后转为 `dead`。异常退出超过 1 小时的 `processing` 任务会在下次 cron 自动恢复。
+
+`deploy/llkc.crontab` 按本地时区每天 06:00 调用 v2 incremental 脚本。
