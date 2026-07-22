@@ -15,6 +15,7 @@ build/
 # Runtime data
 output/*.jsonl
 output/*.json
+output/*.log
 output/cron_logs/
 *.db
 *.db-journal
