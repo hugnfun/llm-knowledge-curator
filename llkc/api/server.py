@@ -36,6 +36,7 @@ app.add_middleware(
 def startup():
     config.ensure_dirs()
     db.init_db()
+    db.fail_stale_runs()
 
 
 @app.get("/")
@@ -122,6 +123,14 @@ def list_runs(stage: Optional[str] = None, status: Optional[str] = None,
     return {"runs": runs, "count": len(runs)}
 
 
+@app.get("/api/pipeline/runs/{run_id}")
+def get_run_detail(run_id: str):
+    run = db.get_run(run_id)
+    if not run:
+        raise HTTPException(404, "run not found")
+    return {"run": run, "events": db.query_events(run_id=run_id, limit=50)}
+
+
 @app.post("/api/pipeline/run")
 def run_pipeline(body: PipelineRunRequest):
     if body.action == "incremental":
@@ -193,11 +202,21 @@ def generate_daily_thinking(body: DailyThinkingRequest):
 def update_free_write(target_date: str, body: FreeWriteUpdate):
     entry = db.get_daily_thinking(target_date)
     if not entry:
-        raise HTTPException(404, "not found")
-    db.update_free_write(target_date, body.free_write)
-    db.log_event("UserThinking.Submitted", thinking_date=target_date,
-                 payload={"char_count": len(body.free_write)})
-    return {"ok": True}
+        # No thinking session yet — create one with empty seeds so free-write is not lost
+        db.upsert_daily_thinking(target_date, [], free_write=body.free_write, status="draft")
+    else:
+        db.update_free_write(target_date, body.free_write)
+    # Sync free-write back to the Obsidian vault markdown file
+    sync_error = ""
+    try:
+        _sync_free_write_to_vault(target_date, body.free_write)
+    except Exception as exc:
+        sync_error = str(exc)
+    db.log_event("UserThinking.Submitted",
+                 payload={"char_count": len(body.free_write), "date": target_date,
+                          "vault_synced": not bool(sync_error)})
+    return {"ok": True, "vault_synced": not bool(sync_error),
+            "sync_error": sync_error or None}
 
 
 # --- Drafts ---
@@ -292,5 +311,42 @@ def health():
 
 
 _web_root = Path(__file__).parent.parent.parent / "web"
+
+
+def _sync_free_write_to_vault(target_date: str, free_write: str):
+    """Update or create the daily-thinking markdown file in the Obsidian vault."""
+    import re
+    doc_path = config.THINKING_ROOT / f"{target_date}.md"
+    if doc_path.exists():
+        text = doc_path.read_text(encoding="utf-8")
+        # Replace content between "## Free Write" and the next "---" separator
+        pattern = r"(##\s*Free Write\s*\n)(.*?)(\n---\s*\n)"
+        if re.search(pattern, text, re.DOTALL):
+            text = re.sub(
+                pattern,
+                lambda match: match.group(1) + free_write + match.group(3),
+                text,
+                flags=re.DOTALL,
+            )
+        else:
+            # Append Free Write section if missing
+            text += f"\n## Free Write\n\n{free_write}\n"
+        doc_path.write_text(text, encoding="utf-8")
+    else:
+        # Create a minimal daily thinking doc
+        config.THINKING_ROOT.mkdir(parents=True, exist_ok=True)
+        doc = (
+            "---\n"
+            "type: daily_thinking\n"
+            f"date: {target_date}\n"
+            "status: draft\n"
+            "---\n\n"
+            f"# Daily Thinking - {target_date}\n\n"
+            "## Free Write\n\n"
+            f"{free_write}\n"
+        )
+        doc_path.write_text(doc, encoding="utf-8")
+
+
 if _web_root.exists():
     app.mount("/static", StaticFiles(directory=str(_web_root)), name="static")

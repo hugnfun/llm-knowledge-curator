@@ -68,7 +68,7 @@ def render_draft_md(draft: dict, target_date: str) -> str:
     angle_id = draft.get("angle_id", "?")
     angle_name = draft.get("angle_name", "")
     headline = draft.get("headline", "")
-    body = draft.get("draft", "")
+    body = draft.get("body") or draft.get("draft") or ""
     hook = draft.get("hook", "")
     image_count = draft.get("image_count", 0)
     linked = draft.get("linked_seeds", [])
@@ -96,52 +96,103 @@ def render_draft_md(draft: dict, target_date: str) -> str:
     return md
 
 
+def normalize_drafts(drafts) -> list[dict]:
+    """Validate the writer contract and canonicalize model `draft` to DB `body`."""
+    if not isinstance(drafts, list):
+        raise ValueError(f"expected list, got {type(drafts).__name__}")
+    if len(drafts) != 4:
+        raise ValueError(f"expected 4 drafts, got {len(drafts)}")
+
+    normalized = []
+    for index, draft in enumerate(drafts, 1):
+        if not isinstance(draft, dict):
+            raise ValueError(f"draft {index} is not an object")
+        item = dict(draft)
+        item["body"] = item.get("body") or item.get("draft") or ""
+        if not item.get("angle_id"):
+            raise ValueError(f"draft {index} has no angle_id")
+        if not item.get("headline"):
+            raise ValueError(f"draft {index} has no headline")
+        if not item["body"].strip():
+            raise ValueError(f"draft {index} has empty body")
+        normalized.append(item)
+    return normalized
+
+
 def run(target_date: str = None, model: str = None, force: bool = False,
         allow_empty: bool = False, db_path: Path = None) -> dict:
     target_date = target_date or date.today().isoformat()
     daily_doc = config.THINKING_ROOT / f"{target_date}.md"
-    if not daily_doc.exists():
-        return {"ok": False, "error": f"{daily_doc} not found, run daily_thinking first"}
 
-    text = daily_doc.read_text(encoding="utf-8")
-    free_write = extract_free_write(text)
-    seeds_section = extract_seeds_section(text)
+    free_write = ""
+    seeds_section = ""
+
+    if daily_doc.exists():
+        text = daily_doc.read_text(encoding="utf-8")
+        free_write = extract_free_write(text)
+        seeds_section = extract_seeds_section(text)
+
+    # DB free_write takes priority (user edits in web UI)
+    db_entry = db.get_daily_thinking(target_date, db_path=db_path)
+    if db_entry and db_entry.get("free_write"):
+        free_write = db_entry["free_write"]
+
+    # Build seeds section from DB if not available from markdown
+    if not seeds_section and db_entry:
+        import json
+        seed_ids = json.loads(db_entry.get("seed_ids") or "[]")
+        seed_lines = []
+        for sid in seed_ids:
+            item = db.get_item(sid, db_path=db_path)
+            if item:
+                seed_lines.append(
+                    f"- **{item.get('title', sid)}** [{item.get('source', '')}]"
+                    + (f" — {item['trigger']}" if item.get('trigger') else "")
+                )
+        seeds_section = "\n".join(seed_lines)
 
     if not free_write and not allow_empty:
         return {"ok": False, "error": "free write is empty, use allow_empty=True to proceed"}
 
+    existing = db.get_drafts(date=target_date, db_path=db_path)
+    if existing and not force:
+        return {"ok": False, "error": f"{len(existing)} drafts already exist, use force=True to replace"}
+
     run_id = db.create_run(thinking_date=target_date,
                            stage=PipelineStage.DRAFT_GENERATE.value, db_path=db_path)
     t0 = time.time()
-    result = generate_drafts(free_write, seeds_section, target_date, model, db_path)
-    elapsed = time.time() - t0
+    try:
+        result = generate_drafts(free_write, seeds_section, target_date, model, db_path)
+        if not result["ok"]:
+            raise RuntimeError(result.get("error", "writer generation failed"))
+        drafts = normalize_drafts(result["drafts"])
 
-    if not result["ok"]:
-        db.fail_run(run_id, result.get("error", "unknown"), db_path=db_path)
-        return result
+        if force:
+            db.delete_drafts(target_date, db_path=db_path)
+        for draft in drafts:
+            draft["date"] = target_date
+            draft["status"] = DraftStatus.CANDIDATE.value
+            db.insert_draft(draft, db_path=db_path)
 
-    drafts = result["drafts"]
-    if not isinstance(drafts, list):
-        db.fail_run(run_id, f"expected list, got {type(drafts)}", db_path=db_path)
-        return {"ok": False, "error": "LLM returned non-array"}
+        drafts_dir = config.DRAFTS_ROOT / target_date
+        drafts_dir.mkdir(parents=True, exist_ok=True)
+        for draft in drafts:
+            aid = draft.get("angle_id", "X")
+            md = render_draft_md(draft, target_date)
+            (drafts_dir / f"draft-{aid}.md").write_text(md, encoding="utf-8")
 
-    for d in drafts:
-        d["date"] = target_date
-        d["status"] = DraftStatus.CANDIDATE.value
-        db.insert_draft(d, db_path=db_path)
-
-    drafts_dir = config.THINKING_ROOT / f"{target_date}-drafts"
-    drafts_dir.mkdir(parents=True, exist_ok=True)
-    for d in drafts:
-        aid = d.get("angle_id", "X")
-        md = render_draft_md(d, target_date)
-        (drafts_dir / f"draft-{aid}.md").write_text(md, encoding="utf-8")
-
-    db.log_event(EventType.DRAFT_GENERATED.value, run_id=run_id,
-                 thinking_date=target_date,
-                 payload={"count": len(drafts)}, db_path=db_path)
-    db.complete_run(run_id, artifacts=str(drafts_dir), db_path=db_path)
-
-    return {"ok": True, "drafts": len(drafts), "path": str(drafts_dir),
-            "elapsed": round(elapsed, 1),
-            "tokens": result.get("usage", {}).get("total_tokens")}
+        db.log_event(
+            EventType.DRAFT_GENERATED.value,
+            run_id=run_id,
+            payload={"count": len(drafts), "date": target_date},
+            db_path=db_path,
+        )
+        db.complete_run(run_id, artifacts=str(drafts_dir), db_path=db_path)
+        elapsed = time.time() - t0
+        return {"ok": True, "drafts": len(drafts), "path": str(drafts_dir),
+                "elapsed": round(elapsed, 1),
+                "tokens": result.get("usage", {}).get("total_tokens")}
+    except Exception as exc:
+        error = f"{type(exc).__name__}: {exc}"
+        db.fail_run(run_id, error, db_path=db_path)
+        return {"ok": False, "error": error}

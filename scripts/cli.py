@@ -175,6 +175,7 @@ def main():
     args = ap.parse_args()
     config.ensure_dirs()
     db.init_db()
+    db.fail_stale_runs()
     args.func(args)
 
 

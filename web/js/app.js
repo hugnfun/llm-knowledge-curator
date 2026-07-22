@@ -127,39 +127,62 @@ function renderCard(item) {
 }
 
 window.showItemDetail = async function(unitId) {
+  const modal = document.getElementById("item-modal");
+  const body = document.getElementById("modal-body");
+  body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">Loading...</div>';
+  modal.style.display = "flex";
   try {
     const data = await api("/api/items/" + encodeURIComponent(unitId));
     const item = data.item;
     const events = data.events || [];
-    const eventList = events.map(e => `<div class="run-time">${e.event_type} - ${fmtDate(e.created_at)}</div>`).join("");
-    const win = window.open("", "_blank", "width=600,height=700");
-    win.document.write(`
-      <html><head><title>${escapeHtml(item.title)}</title>
-      <style>
-        body{font-family:system-ui;padding:24px;max-width:600px;margin:0 auto;color:#2c2825;}
-        h1{font-size:18px;margin-bottom:8px;}
-        .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
-        .tag{font-size:11px;padding:2px 8px;border-radius:4px;background:#f0efec;color:#8a8378;}
-        .field{margin-bottom:12px;}
-        .label{font-size:11px;color:#8a8378;text-transform:uppercase;font-weight:600;}
-        .value{font-size:14px;}
-        .events{margin-top:16px;border-top:1px solid #e0ddd7;padding-top:12px;}
-      </style></head><body>
-      <h1>${escapeHtml(item.title)}</h1>
-      <div class="meta">
-        <span class="tag">${item.source}</span>
+    const eventList = events.map(e =>
+      `<div class="modal-event">${escapeHtml(e.event_type)} - ${fmtDate(e.created_at)}</div>`
+    ).join("");
+    body.innerHTML = `
+      <h1>${escapeHtml(item.title || "Untitled")}</h1>
+      <div class="modal-meta">
+        <span class="tag">${item.source || "?"}</span>
         <span class="tag">${item.verdict}</span>
         ${item.category ? `<span class="tag">${escapeHtml(item.category)}</span>` : ""}
         ${item.priority === "high" ? `<span class="tag">HIGH</span>` : ""}
       </div>
-      <div class="field"><div class="label">Trigger</div><div class="value">${escapeHtml(item.trigger || "")}</div></div>
-      <div class="field"><div class="label">Reason</div><div class="value">${escapeHtml(item.reason || "")}</div></div>
-      <div class="field"><div class="label">Confidence</div><div class="value">${escapeHtml(item.confidence || "")}</div></div>
-      <div class="field"><div class="label">Source Path</div><div class="value" style="font-family:monospace;font-size:12px;">${escapeHtml(item.source_path || "")}</div></div>
-      <div class="events"><div class="label">Events (${events.length})</div>${eventList}</div>
-      </body></html>
-    `);
-    win.document.close();
+      <div class="modal-field"><div class="label">Trigger</div><div class="value">${escapeHtml(item.trigger || "")}</div></div>
+      <div class="modal-field"><div class="label">Reason</div><div class="value">${escapeHtml(item.reason || "")}</div></div>
+      <div class="modal-field"><div class="label">Confidence</div><div class="value">${escapeHtml(item.confidence || "")}</div></div>
+      <div class="modal-field"><div class="label">Source Path</div><div class="value" style="font-family:monospace;font-size:12px;word-break:break-all;">${escapeHtml(item.source_path || "")}</div></div>
+      ${item.raw_content ? `<div class="modal-field"><div class="label">Raw Text</div><div class="value" style="white-space:pre-wrap;max-height:200px;overflow-y:auto;font-size:13px;">${escapeHtml(item.raw_content)}</div></div>` : ""}
+      <div class="modal-actions">
+        <label style="font-size:12px;color:var(--text-muted);">Move to:</label>
+        <select id="modal-verdict-select">
+          <option value="seed" ${item.verdict === "seed" ? "selected" : ""}>Seed</option>
+          <option value="asset" ${item.verdict === "asset" ? "selected" : ""}>Asset</option>
+          <option value="archive" ${item.verdict === "archive" ? "selected" : ""}>Archive</option>
+        </select>
+        <button class="btn btn-sm btn-primary" onclick="moveItemVerdict('${item.unit_id}')">Apply</button>
+      </div>
+      <div class="modal-events">
+        <div class="label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px;">Events (${events.length})</div>
+        ${eventList}
+      </div>
+    `;
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--danger);padding:20px;">Failed: ${escapeHtml(e.message)}</div>`;
+  }
+};
+
+window.closeItemModal = function() {
+  document.getElementById("item-modal").style.display = "none";
+};
+
+window.moveItemVerdict = async function(unitId) {
+  const verdict = document.getElementById("modal-verdict-select").value;
+  try {
+    await api("/api/items/" + encodeURIComponent(unitId) + "/verdict", {
+      method: "PATCH", body: {verdict, category: "", trigger: "", reason: "manual move", confidence: "", priority: ""}
+    });
+    toast("Moved to " + verdict);
+    closeItemModal();
+    loadMaterials(); loadStats();
   } catch(e) { toast("Failed: " + e.message, "error"); }
 };
 
@@ -200,13 +223,50 @@ function renderRunCard(r) {
   const err = r.error ? `<div class="run-error">${escapeHtml(r.error.slice(0,80))}</div>` : "";
   const itemId = r.item_id || r.thinking_date || "";
   return `
-    <div class="run-card ${cls}">
+    <div class="run-card ${cls}" onclick="showRunDetail('${r.id}')" style="cursor:pointer">
       <div class="run-id">${r.id}</div>
       <div class="run-time">${fmtDate(r.started_at)} ${itemId ? "- " + escapeHtml(itemId) : ""}</div>
       ${err}
     </div>
   `;
 }
+
+window.showRunDetail = async function(runId) {
+  const modal = document.getElementById("item-modal");
+  const body = document.getElementById("modal-body");
+  body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">Loading...</div>';
+  modal.style.display = "flex";
+  try {
+    const data = await api("/api/pipeline/runs/" + encodeURIComponent(runId));
+    const run = data.run;
+    const eventList = (data.events || []).map(event =>
+      `<div class="modal-event">${escapeHtml(event.event_type)} - ${fmtDate(event.created_at)}</div>`
+    ).join("");
+    body.innerHTML = `
+      <h1>Run ${run.id}</h1>
+      <div class="modal-meta">
+        <span class="tag">${run.stage || "?"}</span>
+        <span class="tag">${run.status}</span>
+        ${run.thinking_date ? `<span class="tag">${run.thinking_date}</span>` : ""}
+        ${run.item_id ? `<span class="tag">${escapeHtml(run.item_id)}</span>` : ""}
+      </div>
+      <div class="modal-field"><div class="label">Stage</div><div class="value">${escapeHtml(run.stage || "")}</div></div>
+      <div class="modal-field"><div class="label">Status</div><div class="value">${escapeHtml(run.status || "")}</div></div>
+      <div class="modal-field"><div class="label">Started</div><div class="value">${escapeHtml(run.started_at || "")}</div></div>
+      <div class="modal-field"><div class="label">Completed</div><div class="value">${escapeHtml(run.completed_at || "")}</div></div>
+      <div class="modal-field"><div class="label">Duration</div><div class="value">${run.duration_sec ? run.duration_sec + "s" : "-"}</div></div>
+      ${run.error ? `<div class="modal-field"><div class="label">Error</div><div class="value" style="color:var(--danger);">${escapeHtml(run.error)}</div></div>` : ""}
+      ${run.artifacts ? `<div class="modal-field"><div class="label">Artifacts</div><div class="value" style="font-family:monospace;font-size:12px;word-break:break-all;">${escapeHtml(run.artifacts)}</div></div>` : ""}
+      ${run.item_id ? `<div class="modal-field"><div class="label">Item</div><div class="value" style="font-family:monospace;font-size:12px;">${escapeHtml(run.item_id)}</div></div>` : ""}
+      <div class="modal-events">
+        <div class="label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px;">Events (${(data.events || []).length})</div>
+        ${eventList || '<div class="modal-event">No events</div>'}
+      </div>
+    `;
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--danger);padding:20px;">Failed: ${escapeHtml(e.message)}</div>`;
+  }
+};
 
 document.getElementById("btn-run-incremental").addEventListener("click", async () => {
   toast("Running incremental pipeline...");
@@ -259,6 +319,11 @@ async function loadThinkingForDate(targetDate) {
         ${s.reason ? `<div class="seed-item-trigger">Reason: ${escapeHtml(s.reason)}</div>` : ""}
       </div>
     `).join("") || "<div style='color:#8a8378;padding:16px;'>No thinking session for this date. Click Generate.</div>";
+    // Make seed titles clickable
+    container.querySelectorAll(".seed-item").forEach((el, i) => {
+      if (seeds[i]) el.style.cursor = "pointer";
+      if (seeds[i]) el.addEventListener("click", () => showItemDetail(seeds[i].unit_id));
+    });
   } catch(e) {
     document.getElementById("thinking-seeds").innerHTML = "<div style='color:#8a8378;padding:16px;'>No thinking session for this date. Click Generate.</div>";
     document.getElementById("free-write").value = "";
@@ -289,7 +354,7 @@ async function loadDrafts() {
   const today = new Date().toISOString().slice(0, 10);
   const dateInput = document.getElementById("draft-date");
   if (!dateInput.value) dateInput.value = today;
-  await loadDraftsForDate(today);
+  await loadDraftsForDate(dateInput.value);
 }
 
 async function loadDraftsForDate(targetDate) {
@@ -301,7 +366,8 @@ async function loadDraftsForDate(targetDate) {
       <div class="draft-card">
         <div class="draft-angle">${escapeHtml(d.angle_id || "?")} - ${escapeHtml(d.angle_name || "")}</div>
         <div class="draft-headline">${escapeHtml(d.headline || "")}</div>
-        <div class="draft-body">${escapeHtml((d.body || "").slice(0, 200))}...</div>
+        <div class="draft-body">${escapeHtml((d.body || d.draft || "").slice(0, 500))}</div>
+        ${d.hook ? `<div class="draft-hook">> ${escapeHtml(d.hook)}</div>` : ""}
         <div class="draft-actions-bar">
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'selected')">Select</button>
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'dismissed')">Dismiss</button>
@@ -331,5 +397,99 @@ document.getElementById("btn-generate-drafts").addEventListener("click", async (
 });
 
 // --- Init ---
+// Modal: close on overlay click / Escape
+document.getElementById("item-modal").addEventListener("click", (e) => {
+  if (e.target.id === "item-modal") closeItemModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { closeItemModal(); closeIngestModal(); }
+});
+
+// --- Ingest URL ---
+const SOURCE_LABEL = {
+  wechat: "微信公众号", douyin: "抖音", tiktok: "TikTok（暂不支持采集）",
+  xhs: "小红书", generic: "一般网页",
+};
+
+function classifyUrlPreview(url) {
+  if (!url) return "";
+  if (/mp\.weixin\.qq\.com/.test(url)) return "wechat";
+  if (/(v\.douyin\.com|www\.douyin\.com|iesdouyin\.com)/.test(url)) return "douyin";
+  if (/(www\.tiktok\.com|vm\.tiktok\.com)/.test(url)) return "tiktok";
+  if (/(xiaohongshu\.com|xhslink\.com)/.test(url)) return "xhs";
+  if (/^https?:\/\//.test(url)) return "generic";
+  return "";
+}
+
+// Extract the first http(s) URL from arbitrary shared text
+// (e.g. Douyin/Xiaohongshu share strings that wrap the link in emojis + notes).
+function extractFirstUrl(text) {
+  if (!text) return "";
+  const m = text.match(/https?:\/\/[^\s<>"'\u4e00-\u9fff]+/);
+  return m ? m[0] : "";
+}
+
+window.openIngestModal = function() {
+  document.getElementById("ingest-url-input").value = "";
+  document.getElementById("ingest-hint").textContent = "";
+  document.getElementById("ingest-status").textContent = "";
+  document.getElementById("ingest-modal").style.display = "flex";
+  setTimeout(() => document.getElementById("ingest-url-input").focus(), 50);
+};
+
+window.closeIngestModal = function() {
+  document.getElementById("ingest-modal").style.display = "none";
+};
+
+document.getElementById("btn-ingest-url").addEventListener("click", openIngestModal);
+
+document.getElementById("ingest-modal").addEventListener("click", (e) => {
+  if (e.target.id === "ingest-modal") closeIngestModal();
+});
+
+document.getElementById("ingest-url-input").addEventListener("input", (e) => {
+  const raw = e.target.value.trim();
+  const url = extractFirstUrl(raw) || raw;
+  const t = classifyUrlPreview(url);
+  const hint = document.getElementById("ingest-hint");
+  if (t) {
+    const extracted = url !== raw ? ` (提取到: ${url})` : "";
+    hint.textContent = "识别为: " + (SOURCE_LABEL[t] || t) + extracted;
+  } else {
+    hint.textContent = raw ? "未识别到 http(s) 链接" : "";
+  }
+});
+
+document.getElementById("btn-ingest-submit").addEventListener("click", async () => {
+  const raw = document.getElementById("ingest-url-input").value.trim();
+  const url = extractFirstUrl(raw) || raw;
+  const auto = document.getElementById("ingest-auto-classify").checked;
+  if (!url) { toast("请输入 URL", "error"); return; }
+  const status = document.getElementById("ingest-status");
+  const btn = document.getElementById("btn-ingest-submit");
+  btn.disabled = true;
+  status.textContent = "正在提取内容...（视频/图文可能需要 30 秒 - 2 分钟）";
+  try {
+    const r = await api("/api/ingest/url", {method: "POST", body: {url, auto_classify: auto}});
+    if (r.ok) {
+      const bits = [];
+      if (r.has_video) bits.push("视频");
+      if (r.has_transcript) bits.push("转录");
+      if (r.has_images) bits.push("图片×" + (r.original_files || []).filter(p => /\.(png|jpe?g|webp|heic)$/i.test(p)).length);
+      status.textContent = `✅ 已写入 ${r.inbox_path}\n资产: ${bits.join("、") || "文本"}\nunit_id: ${r.unit_id}`;
+      toast("Ingested: " + (r.title || "").slice(0, 30));
+      loadStats(); loadMaterials();
+    } else {
+      status.textContent = "❌ " + (r.error || "未知错误");
+      toast("Ingest failed: " + (r.error || ""), "error");
+    }
+  } catch(e) {
+    status.textContent = "❌ " + e.message;
+    toast("Ingest failed: " + e.message, "error");
+  } finally {
+    btn.disabled = false;
+  }
+});
+
 loadStats();
 loadMaterials();

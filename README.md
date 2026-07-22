@@ -169,6 +169,7 @@ Grid of draft cards showing angle, headline, and body preview. Select or dismiss
 | PATCH | `/api/items/{id}/status` | Update item status |
 | POST | `/api/items/{id}/override` | Override LLM verdict (logged) |
 | GET | `/api/pipeline/runs` | List pipeline runs |
+| GET | `/api/pipeline/runs/{id}` | Get a run and its event history |
 | POST | `/api/pipeline/run` | Trigger a pipeline action |
 | GET | `/api/pipeline/overview` | Pipeline kanban overview |
 | GET | `/api/pipeline/stages` | List all stages |
@@ -244,7 +245,8 @@ Vault structure:
 ```
 00-Inbox/{Clippings,Telegram,X-Bookmarks}   # Raw materials
 01-灵感库/                                    # Seeds (classified by LLM)
-02-思考/                                      # Daily thinking + drafts
+02-思考/                                      # Daily thinking
+02-Drafts/                                   # Generated draft candidates
 03-Assets/                                    # Assets (reference materials)
 04-Archive/                                   # Archived items (metadata only)
 ```

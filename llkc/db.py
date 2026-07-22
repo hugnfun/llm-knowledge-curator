@@ -276,6 +276,28 @@ def query_runs(stage=None, status=None, limit=50, db_path=None) -> list[dict]:
         return [dict(r) for r in c.execute(sql, params).fetchall()]
 
 
+def get_run(run_id: str, db_path=None) -> Optional[dict]:
+    with get_conn(db_path) as c:
+        row = c.execute("SELECT * FROM pipeline_runs WHERE id=?", (run_id,)).fetchone()
+        return row_to_dict(row)
+
+
+def fail_stale_runs(stale_after_seconds=3600, db_path=None) -> int:
+    """Close runs abandoned by a crashed worker after a conservative timeout."""
+    cutoff = (datetime.now(timezone.utc) - timedelta(seconds=stale_after_seconds)).isoformat()
+    now = _now()
+    with get_conn(db_path) as c:
+        cursor = c.execute(
+            """UPDATE pipeline_runs
+               SET status='failed', completed_at=?,
+                   error=CASE WHEN error IS NULL OR error=''
+                              THEN 'recovered stale running task' ELSE error END
+               WHERE status='running' AND started_at < ?""",
+            (now, cutoff),
+        )
+        return cursor.rowcount
+
+
 # --- Events ---
 
 def log_event(event_type, run_id=None, item_id=None, payload=None, db_path=None):
@@ -443,8 +465,8 @@ def insert_draft(draft: dict, db_path=None):
             VALUES (?,?,?,?,?,?,?,?,?,?)""",
                   (draft.get("id") or uuid.uuid4().hex[:12],
                    draft.get("date", ""), draft.get("angle_id", ""),
-                   draft.get("angle_name", ""), draft.get("headline", ""),
-                   draft.get("body", ""), draft.get("hook", ""),
+                  draft.get("angle_name", ""), draft.get("headline", ""),
+                   draft.get("body") or draft.get("draft", ""), draft.get("hook", ""),
                    draft.get("image_count", 0),
                    json.dumps(draft.get("linked_seeds", []), ensure_ascii=False),
                    draft.get("status", "candidate")))
@@ -460,6 +482,12 @@ def get_drafts(date=None, status=None, db_path=None) -> list[dict]:
     sql += " ORDER BY created_at DESC"
     with get_conn(db_path) as c:
         return [dict(r) for r in c.execute(sql, params).fetchall()]
+
+
+def delete_drafts(date: str, db_path=None) -> int:
+    with get_conn(db_path) as c:
+        cursor = c.execute("DELETE FROM drafts WHERE thinking_date=?", (date,))
+        return cursor.rowcount
 
 
 def update_draft_status(draft_id, status, db_path=None):

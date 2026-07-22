@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LLM Knowledge Curator</title>
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/app.css?v=6">
 </head>
 <body>
 <div id="app">
@@ -20,6 +20,7 @@
       <button class="tab" data-view="drafts">Drafts</button>
     </div>
     <div class="nav-stats" id="nav-stats"></div>
+    <button id="btn-ingest-url" class="btn btn-primary" style="margin-left:auto;">+ Ingest URL</button>
   </nav>
 
   <main id="content">
@@ -33,6 +34,10 @@
             <option value="clippings">Clippings</option>
             <option value="telegram">Telegram</option>
             <option value="x-bookmarks">X-Bookmarks</option>
+            <option value="wechat">微信公众号</option>
+            <option value="douyin">抖音</option>
+            <option value="xhs">小红书</option>
+            <option value="generic">Web</option>
           </select>
           <input type="text" id="filter-search" class="filter-input" placeholder="Search...">
         </div>
@@ -85,7 +90,33 @@
   </main>
 
   <div id="toast" class="toast"></div>
+  <div id="item-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeItemModal()">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+  <div id="ingest-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content" style="width:560px;">
+      <button class="modal-close" onclick="closeIngestModal()">&times;</button>
+      <h2 style="font-size:16px;margin-bottom:12px;">Ingest URL</h2>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">
+        粘贴微信公众号 / 抖音 / 小红书或任意文章链接，自动提取正文/转录写入 Obsidian inbox。
+      </p>
+      <input type="text" id="ingest-url-input" class="filter-input" style="width:100%;padding:8px;margin-bottom:12px;" placeholder="https://...">
+      <div id="ingest-hint" style="font-size:12px;color:var(--text-muted);min-height:16px;margin-bottom:12px;"></div>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);margin-bottom:12px;">
+        <input type="checkbox" id="ingest-auto-classify">
+        提取完成后自动跑判别器（会一次跑所有 pending items）
+      </label>
+      <div id="ingest-status" style="font-size:12px;color:var(--text-muted);min-height:20px;margin-bottom:12px;white-space:pre-wrap;"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn" onclick="closeIngestModal()">Cancel</button>
+        <button id="btn-ingest-submit" class="btn btn-primary">Ingest</button>
+      </div>
+    </div>
+  </div>
 </div>
-<script src="/static/js/app.js"></script>
+<script src="/static/js/app.js?v=6"></script>
 </body>
 </html>
