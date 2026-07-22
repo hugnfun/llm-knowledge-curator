@@ -88,6 +88,24 @@ CREATE TABLE IF NOT EXISTS overrides (
     created_at TEXT DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS pending_urls (
+    id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+    url                TEXT NOT NULL,
+    normalized_url     TEXT NOT NULL UNIQUE,
+    source             TEXT NOT NULL DEFAULT 'lark',
+    source_event_id    TEXT,
+    source_message_id  TEXT,
+    source_create_time TEXT,
+    chat_id            TEXT,
+    sender_id          TEXT,
+    captured_at        TEXT NOT NULL,
+    status             TEXT NOT NULL DEFAULT 'pending',
+    attempts           INTEGER NOT NULL DEFAULT 0,
+    last_error         TEXT,
+    item_id            TEXT,
+    processed_at       TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_items_verdict ON items(verdict);
 CREATE INDEX IF NOT EXISTS idx_items_status ON items(status);
 CREATE INDEX IF NOT EXISTS idx_items_source ON items(source);
@@ -97,6 +115,7 @@ CREATE INDEX IF NOT EXISTS idx_runs_item ON pipeline_runs(item_id);
 CREATE INDEX IF NOT EXISTS idx_events_run ON events(run_id);
 CREATE INDEX IF NOT EXISTS idx_events_item ON events(item_id);
 CREATE INDEX IF NOT EXISTS idx_drafts_date ON drafts(thinking_date);
+CREATE INDEX IF NOT EXISTS idx_pending_urls_status ON pending_urls(status, captured_at);
 """
 
 
@@ -277,6 +296,39 @@ def query_events(run_id=None, item_id=None, limit=50, db_path=None) -> list[dict
     params.append(limit)
     with get_conn(db_path) as c:
         return [dict(r) for r in c.execute(sql, params).fetchall()]
+
+
+# --- Pending URL capture queue ---
+
+def enqueue_pending_url(url, normalized_url, source="lark", source_event_id="",
+                        source_message_id="", source_create_time="", chat_id="",
+                        sender_id="", db_path=None) -> tuple[dict, bool]:
+    """Idempotently enqueue a URL and return ``(row, was_created)``."""
+    with get_conn(db_path) as c:
+        cursor = c.execute(
+            """INSERT OR IGNORE INTO pending_urls
+               (url, normalized_url, source, source_event_id, source_message_id,
+                source_create_time, chat_id, sender_id, captured_at)
+               VALUES (?,?,?,?,?,?,?,?,?)""",
+            (url, normalized_url, source, source_event_id, source_message_id,
+             source_create_time, chat_id, sender_id, _now()),
+        )
+        row = c.execute(
+            "SELECT * FROM pending_urls WHERE normalized_url=?", (normalized_url,),
+        ).fetchone()
+        return dict(row), cursor.rowcount == 1
+
+
+def query_pending_urls(status=None, limit=100, db_path=None) -> list[dict]:
+    sql = "SELECT * FROM pending_urls"
+    params = []
+    if status:
+        sql += " WHERE status=?"
+        params.append(status)
+    sql += " ORDER BY captured_at, id LIMIT ?"
+    params.append(limit)
+    with get_conn(db_path) as c:
+        return [dict(row) for row in c.execute(sql, params).fetchall()]
 
 
 # --- Daily thinking ---

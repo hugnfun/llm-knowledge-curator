@@ -2,6 +2,7 @@ import sqlite3
 import subprocess
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
 from unittest import mock
 
@@ -120,7 +121,7 @@ class UrlPersistenceTests(unittest.TestCase):
                     "content",
                 )
 
-            with sqlite3.connect(db_path) as connection:
+            with closing(sqlite3.connect(db_path)) as connection:
                 row = connection.execute(
                     "SELECT abs_path, raw_content FROM items WHERE unit_id='url-test'"
                 ).fetchone()

@@ -77,6 +77,17 @@ def cmd_migrate(args):
     migrate()
 
 
+def cmd_lark_listen(args):
+    from llkc.connectors import lark_listener
+    result = lark_listener.run_listener(
+        lark_cli=args.lark_cli,
+        max_events=args.max_events,
+        timeout=args.timeout,
+        ready_timeout=args.ready_timeout,
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def cmd_serve(args):
     import uvicorn
     print(f"Starting API server on {config.API_HOST}:{config.API_PORT}")
@@ -133,6 +144,13 @@ def main():
 
     p_migrate = sub.add_parser("migrate", help="Import existing verdicts.jsonl into SQLite")
     p_migrate.set_defaults(func=cmd_migrate)
+
+    p_lark = sub.add_parser("lark-listen", help="Capture URLs from Feishu bot messages")
+    p_lark.add_argument("--lark-cli", default=None, help="lark-cli executable path")
+    p_lark.add_argument("--max-events", type=int, default=0)
+    p_lark.add_argument("--timeout", default="", help="bounded consume duration, e.g. 30s")
+    p_lark.add_argument("--ready-timeout", type=float, default=30)
+    p_lark.set_defaults(func=cmd_lark_listen)
 
     p_serve = sub.add_parser("serve", help="Start API server + Web GUI")
     p_serve.add_argument("--reload", action="store_true")
