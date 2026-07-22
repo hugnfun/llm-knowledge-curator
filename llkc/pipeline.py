@@ -5,7 +5,7 @@ from typing import Optional
 
 from . import config, db
 from .models import PipelineStage, RunStatus, EventType, STAGE_ORDER
-from .connectors import obsidian_inbox
+from .connectors import obsidian_inbox, pending_urls
 from .stages import parser as parser_stage
 from .stages import write_back as write_back_stage
 from .stages import daily_thinking as daily_thinking_stage
@@ -13,13 +13,12 @@ from .stages import writer as writer_stage
 
 
 def run_incremental(db_path: Optional[Path] = None) -> dict:
-    """Full incremental pipeline: scan inbox -> classify -> write back to vault.
+    """Full incremental pipeline: ingest queued URLs -> scan -> classify -> pool.
     This is the cron equivalent of the old cron_incremental.sh."""
     results = {}
-    results["scan"] = obsidian_inbox.scan_inbox(persist=True) if False else None
-
-    items_before = db.count_items(db_path=db_path)
-    units = obsidian_inbox.scan_inbox(persist=True)
+    results["pending_urls"] = pending_urls.run(db_path=db_path)
+    units = obsidian_inbox.scan_inbox(persist=True, db_path=db_path)
+    results["scan"] = {"units": len(units)}
 
     pending = db.query_items(verdict="pending", limit=100000, db_path=db_path)
     if not pending:

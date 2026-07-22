@@ -1,6 +1,6 @@
 # 飞书机器人 URL 自动捕获
 
-监听飞书机器人收到的 `im.message.receive_v1` 事件，从 text/post 消息中提取 HTTP(S) URL，写入 SQLite `pending_urls` 队列。监听器只入队，不在事件回调里下载或转录；后续 cron 负责消费。
+监听飞书机器人收到的 `im.message.receive_v1` 事件，从 text/post 消息中提取 HTTP(S) URL，写入 SQLite `pending_urls` 队列。监听器只入队，不在事件回调里下载或转录；现有 v2 incremental cron 会在扫描 inbox 前调用 `pending-urls` connector 消费。
 
 ## 前置条件
 
@@ -40,3 +40,13 @@ LLKC_LARK_SENDER_IDS=ou_xxx
 - `normalized_url` 全局唯一；相同 URL 重复投递只计为 duplicate，不产生第二条任务。
 - URL fragment 会移除，签名 query（例如小红书 `xsec_token`）会保留。
 - 每个新 URL 会记录 `PendingURL.Captured` 审计事件。
+
+## Cron 消费
+
+`scripts/cron_incremental_v2.sh` 仍只调用统一入口：
+
+```bash
+python3 scripts/cli.py incremental
+```
+
+`pipeline.run_incremental()` 的顺序是：pending URL ingest → inbox scan → classify → pool。单条 URL 失败不会阻塞批次；失败会重试，默认第 3 次失败后转为 `dead`。异常退出超过 1 小时的 `processing` 任务会在下次 cron 自动恢复。

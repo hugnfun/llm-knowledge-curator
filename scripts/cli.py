@@ -88,6 +88,16 @@ def cmd_lark_listen(args):
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
+def cmd_pending_urls(args):
+    from llkc.connectors import pending_urls
+    result = pending_urls.run(
+        limit=args.limit,
+        max_attempts=args.max_attempts,
+        stale_after_seconds=args.stale_seconds,
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def cmd_serve(args):
     import uvicorn
     print(f"Starting API server on {config.API_HOST}:{config.API_PORT}")
@@ -151,6 +161,12 @@ def main():
     p_lark.add_argument("--timeout", default="", help="bounded consume duration, e.g. 30s")
     p_lark.add_argument("--ready-timeout", type=float, default=30)
     p_lark.set_defaults(func=cmd_lark_listen)
+
+    p_pending_urls = sub.add_parser("pending-urls", help="Ingest queued URLs")
+    p_pending_urls.add_argument("--limit", type=int, default=20)
+    p_pending_urls.add_argument("--max-attempts", type=int, default=3)
+    p_pending_urls.add_argument("--stale-seconds", type=int, default=3600)
+    p_pending_urls.set_defaults(func=cmd_pending_urls)
 
     p_serve = sub.add_parser("serve", help="Start API server + Web GUI")
     p_serve.add_argument("--reload", action="store_true")

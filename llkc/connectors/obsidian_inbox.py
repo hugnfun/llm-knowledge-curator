@@ -93,12 +93,12 @@ def collect_telegram() -> list[dict]:
     return units
 
 
-def scan_inbox(persist: bool = True) -> list[dict]:
+def scan_inbox(persist: bool = True, db_path: Path = None) -> list[dict]:
     """Scan all inbox sources and optionally persist to DB. Returns all units."""
     all_units = collect_clippings() + collect_xbookmarks() + collect_telegram()
     if persist:
-        run_id = db.create_run(stage=PipelineStage.COLLECT.value)
-        with db.get_conn() as c:
+        run_id = db.create_run(stage=PipelineStage.COLLECT.value, db_path=db_path)
+        with db.get_conn(db_path) as c:
             for u in all_units:
                 item = {
                     **u,
@@ -116,8 +116,10 @@ def scan_inbox(persist: bool = True) -> list[dict]:
                 db.upsert_item(c, item)
         for u in all_units:
             db.log_event(EventType.RAW_ITEM_CREATED.value, item_id=u["unit_id"],
-                         payload={"source": u["source"], "title": u["title"]})
-        db.complete_run(run_id, artifacts=json.dumps({"total": len(all_units)}))
+                         payload={"source": u["source"], "title": u["title"]},
+                         db_path=db_path)
+        db.complete_run(run_id, artifacts=json.dumps({"total": len(all_units)}),
+                        db_path=db_path)
     return all_units
 
 

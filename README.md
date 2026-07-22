@@ -32,7 +32,10 @@ llm-knowledge-curator/
 │   ├── vault.py                 # Shared vault path/content utilities
 │   ├── migrate.py               # Import existing verdicts.jsonl into SQLite
 │   ├── connectors/
-│   │   └── obsidian_inbox.py    # Inbox scanner (migrated from build_index.py)
+│   │   ├── obsidian_inbox.py    # Inbox scanner (migrated from build_index.py)
+│   │   ├── lark_listener.py     # Feishu message -> pending URL queue
+│   │   ├── pending_urls.py      # Queue -> URL ingest (cron)
+│   │   └── url_ingest.py        # WeChat/Douyin/XHS/web -> Markdown
 │   ├── stages/
 │   │   ├── parser.py            # LLM classifier (migrated from parser_runner.py)
 │   │   ├── write_back.py        # Vault writer (migrated from write_back.py)
@@ -109,8 +112,12 @@ This imports existing `output/verdicts.jsonl` (955 items) into SQLite.
 ### 3. Run the pipeline
 
 ```bash
-# Full incremental: scan inbox -> classify new -> pool to vault
+# Full incremental: pending URLs -> scan inbox -> classify new -> pool to vault
 python3 scripts/cli.py incremental
+
+# Feishu capture and a manual queue drain
+python3 scripts/cli.py lark-listen
+python3 scripts/cli.py pending-urls
 
 # Or run stages individually
 python3 scripts/cli.py scan        # Scan inbox only
@@ -186,6 +193,7 @@ events         -- Event log for audit trail
 daily_thinking -- Daily thinking sessions with seed_ids and free_write
 drafts         -- Draft candidates with angle, headline, body, status
 overrides      -- Manual verdict overrides (for future few-shot tuning)
+pending_urls   -- Durable, retryable queue captured by the Feishu bot
 ```
 
 ## Configuration
@@ -201,13 +209,20 @@ All configuration is via environment variables (see `.env.example`):
 | `LLM_API_KEY` | (empty) | LLM API key |
 | `LLM_MODEL` | `ark-code-latest` | Model name |
 | `LLKC_API_PORT` | `8765` | API server port |
+| `LLKC_LARK_CLI` | `lark-cli` | Feishu event CLI executable |
+| `LLKC_LARK_CHAT_IDS` | (empty) | Optional comma-separated chat allowlist |
+| `LLKC_LARK_SENDER_IDS` | (empty) | Optional comma-separated sender allowlist |
+| `LLKC_PENDING_URL_LIMIT` | `20` | URLs claimed per incremental run |
+| `LLKC_PENDING_URL_MAX_ATTEMPTS` | `3` | Retry limit before a URL becomes dead |
 
 ## Cron Setup
 
 ```bash
-# Add to crontab for daily incremental sync at 6am:
+# The same incremental command drains pending_urls before scanning the inbox:
 0 6 * * * cd ~/Documents/Project/llm-knowledge-curator && python3 scripts/cli.py incremental >> output/cron.log 2>&1
 ```
+
+Feishu listener setup and lifecycle details: [`docs/LARK_URL_CAPTURE.md`](docs/LARK_URL_CAPTURE.md).
 
 ## Backward Compatibility
 

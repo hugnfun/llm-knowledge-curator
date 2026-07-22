@@ -461,9 +461,10 @@ def _assemble_markdown(source_type: str, url: str, data: dict,
 # ---------- Persistence ----------
 
 def _register_item(unit_id: str, source_type: str, source_path: str, title: str,
-                   preview: str, char_len: int, raw_content: str) -> None:
+                   preview: str, char_len: int, raw_content: str,
+                   db_path: Optional[Path] = None) -> None:
     """Insert a row into items so downstream classify/pool stages will pick it up."""
-    with db.get_conn() as c:
+    with db.get_conn(db_path) as c:
         c.execute(
             "INSERT OR IGNORE INTO items "
             "(unit_id, source, source_path, abs_path, title, preview, char_len, "
@@ -476,12 +477,13 @@ def _register_item(unit_id: str, source_type: str, source_path: str, title: str,
         "RawItem.Created",
         item_id=unit_id,
         payload={"source_type": source_type, "source_path": source_path},
+        db_path=db_path,
     )
 
 
 # ---------- Main entry ----------
 
-def ingest_url(url: str) -> IngestResult:
+def ingest_url(url: str, db_path: Optional[Path] = None) -> IngestResult:
     url = url.strip()
     if not url:
         return IngestResult(ok=False, error="empty url")
@@ -527,6 +529,7 @@ def ingest_url(url: str) -> IngestResult:
             preview=preview_body.replace("\n", " | ")[:500],
             char_len=len(md_text),
             raw_content=md_text,
+            db_path=db_path,
         )
     except Exception as e:
         # DB registration is nice-to-have; the file already exists

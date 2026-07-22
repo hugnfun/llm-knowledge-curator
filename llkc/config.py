@@ -3,6 +3,14 @@
 import os
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # Exported environment variables still work without this optional package.
+    load_dotenv = None
+
+if load_dotenv:
+    load_dotenv(Path(__file__).parent.parent / ".env")
+
 
 def _expand(p: str) -> Path:
     return Path(os.path.expanduser(p))

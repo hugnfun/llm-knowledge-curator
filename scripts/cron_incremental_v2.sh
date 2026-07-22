@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # LLM Knowledge Curator v2 cron - uses llkc package CLI
-# Run: scan inbox -> classify new -> pool to vault
+# Run: ingest pending URLs -> scan inbox -> classify new -> pool to vault
 set -euo pipefail
 
 PROJ="$HOME/Documents/Project/llm-knowledge-curator"

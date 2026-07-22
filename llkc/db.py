@@ -4,7 +4,7 @@ import json
 import sqlite3
 import uuid
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -329,6 +329,79 @@ def query_pending_urls(status=None, limit=100, db_path=None) -> list[dict]:
     params.append(limit)
     with get_conn(db_path) as c:
         return [dict(row) for row in c.execute(sql, params).fetchall()]
+
+
+def claim_pending_urls(limit=20, max_attempts=3, stale_after_seconds=3600,
+                       db_path=None) -> list[dict]:
+    """Atomically claim retryable URLs and recover stale processing rows."""
+    now = datetime.now(timezone.utc)
+    stale_before = (now - timedelta(seconds=stale_after_seconds)).isoformat()
+    with get_conn(db_path) as c:
+        c.execute("BEGIN IMMEDIATE")
+        c.execute(
+            """UPDATE pending_urls
+               SET status='failed', last_error='recovered stale processing task'
+               WHERE status='processing' AND processed_at < ?""",
+            (stale_before,),
+        )
+        candidates = c.execute(
+            """SELECT id FROM pending_urls
+               WHERE status IN ('pending', 'failed') AND attempts < ?
+               ORDER BY captured_at, id LIMIT ?""",
+            (max_attempts, limit),
+        ).fetchall()
+        if not candidates:
+            return []
+        ids = [row["id"] for row in candidates]
+        placeholders = ",".join("?" for _ in ids)
+        c.execute(
+            f"""UPDATE pending_urls
+                SET status='processing', attempts=attempts+1,
+                    last_error=NULL, processed_at=?
+                WHERE id IN ({placeholders})""",
+            (_now(), *ids),
+        )
+        return [dict(row) for row in c.execute(
+            f"SELECT * FROM pending_urls WHERE id IN ({placeholders}) ORDER BY captured_at, id",
+            ids,
+        ).fetchall()]
+
+
+def complete_pending_url(pending_url_id, item_id="", db_path=None):
+    with get_conn(db_path) as c:
+        c.execute(
+            """UPDATE pending_urls
+               SET status='completed', item_id=?, last_error=NULL, processed_at=?
+               WHERE id=?""",
+            (item_id, _now(), pending_url_id),
+        )
+
+
+def fail_pending_url(pending_url_id, error, max_attempts=3, db_path=None) -> str:
+    """Record a failure and return the resulting ``failed`` or ``dead`` status."""
+    with get_conn(db_path) as c:
+        row = c.execute(
+            "SELECT attempts FROM pending_urls WHERE id=?", (pending_url_id,),
+        ).fetchone()
+        if not row:
+            raise KeyError(f"pending URL not found: {pending_url_id}")
+        status = "dead" if row["attempts"] >= max_attempts else "failed"
+        c.execute(
+            """UPDATE pending_urls
+               SET status=?, last_error=?, processed_at=? WHERE id=?""",
+            (status, str(error)[:2000], _now(), pending_url_id),
+        )
+        return status
+
+
+def count_pending_urls(db_path=None) -> dict[str, int]:
+    with get_conn(db_path) as c:
+        return {
+            row["status"]: row["count"]
+            for row in c.execute(
+                "SELECT status, COUNT(*) AS count FROM pending_urls GROUP BY status"
+            ).fetchall()
+        }
 
 
 # --- Daily thinking ---
