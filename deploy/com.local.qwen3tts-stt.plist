@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.local.qwen3tts-stt</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/aicer/qwen3tts/venv/bin/python</string>
+        <string>server_stt.py</string>
+        <string>--host</string>
+        <string>0.0.0.0</string>
+        <string>--port</string>
+        <string>9998</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+        <key>Crashed</key>
+        <true/>
+    </dict>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/aicer/Library/Logs/qwen3tts-stt.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/aicer/Library/Logs/qwen3tts-stt.err</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/aicer/qwen3tts/app</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/aicer/qwen3tts/venv/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>MLX_DEFAULT_DEVICE</key>
+        <string>gpu</string>
+        <key>QWEN3TTS_HOME</key>
+        <string>/Users/aicer/qwen3tts</string>
+    </dict>
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

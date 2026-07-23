@@ -299,6 +299,8 @@ def classify_url_only(url: str):
 
 @app.get("/api/health")
 def health():
+    queue = db.count_pending_urls()
+    dead_urls = db.query_pending_urls(status="dead", limit=10)
     return {
         "status": "ok",
         "vault": str(config.VAULT_ROOT),
@@ -307,7 +309,19 @@ def health():
             "parser": config.PARSER_PROMPT_PATH.exists(),
             "writer": config.WRITER_PROMPT_PATH.exists(),
         },
+        "pending_url_queue": queue,
+        "dead_urls": [
+            {"id": d["id"], "url": d["url"], "attempts": d["attempts"],
+             "last_error": (d.get("last_error") or "")[:200]}
+            for d in dead_urls
+        ],
     }
+
+
+@app.get("/api/pending-urls")
+def list_pending_urls(status: Optional[str] = None, limit: int = Query(100, le=500)):
+    """List pending URL queue entries for monitoring."""
+    return {"urls": db.query_pending_urls(status=status, limit=limit)}
 
 
 _web_root = Path(__file__).parent.parent.parent / "web"

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.llkc.pending-url-worker</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/Frameworks/Python.framework/Versions/3.13/bin/python3</string>
+    <string>/Users/aicer/Documents/Project/llm-knowledge-curator/scripts/cli.py</string>
+    <string>worker</string>
+    <string>--interval</string>
+    <string>20</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/aicer/Documents/Project/llm-knowledge-curator</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/aicer/.npm-global/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+  <key>ProcessType</key>
+  <string>Background</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/aicer/Documents/Project/llm-knowledge-curator/output/pending_worker.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/aicer/Documents/Project/llm-knowledge-curator/output/pending_worker.err.log</string>
+</dict>
+</plist>

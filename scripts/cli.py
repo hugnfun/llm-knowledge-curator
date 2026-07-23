@@ -107,6 +107,15 @@ def cmd_serve(args):
                 reload=args.reload)
 
 
+def cmd_worker(args):
+    from llkc.connectors import pending_worker
+    result = pending_worker.run_worker(
+        interval=args.interval,
+        once=args.once,
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def main():
     ap = argparse.ArgumentParser(
         prog="llkc",
@@ -171,6 +180,11 @@ def main():
     p_serve = sub.add_parser("serve", help="Start API server + Web GUI")
     p_serve.add_argument("--reload", action="store_true")
     p_serve.set_defaults(func=cmd_serve)
+
+    p_worker = sub.add_parser("worker", help="Run pending-URL worker daemon (LaunchAgent)")
+    p_worker.add_argument("--interval", type=int, default=20, help="Poll interval in seconds")
+    p_worker.add_argument("--once", action="store_true", help="Run one cycle and exit")
+    p_worker.set_defaults(func=cmd_worker)
 
     args = ap.parse_args()
     config.ensure_dirs()
