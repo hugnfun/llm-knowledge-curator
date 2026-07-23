@@ -36,6 +36,30 @@ class OpenCLIClientTests(unittest.TestCase):
             )
         self.assertEqual(run.call_args_list[-1].args[0], ["browser", "dy-test", "close"])
 
+    def test_douyin_eval_prefers_progressive_player_url_over_blob(self):
+        captured = {}
+
+        def fake_eval(_session, javascript):
+            captured["javascript"] = javascript
+            return {"desc": "demo", "video_url": "https://cdn.test/video.mp4"}
+
+        with (
+            mock.patch.object(opencli_client, "_run", return_value={}),
+            mock.patch.object(opencli_client, "_browser_eval", side_effect=fake_eval),
+        ):
+            opencli_client.douyin_video_detail(
+                "https://www.douyin.com/video/123",
+                "dy-progressive-test",
+            )
+
+        javascript = captured["javascript"]
+        self.assertIn("window.player?.config?.awemeInfo", javascript)
+        self.assertIn("firstUrl(videoInfo.playAddr)", javascript)
+        self.assertLess(
+            javascript.index("firstUrl(videoInfo.playAddr)"),
+            javascript.index("source?.src"),
+        )
+
 
 class UrlAdapterTests(unittest.TestCase):
     def test_xhs_adapter_maps_opencli_output_and_downloaded_media(self):

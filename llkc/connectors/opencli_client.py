@@ -175,6 +175,11 @@ def douyin_video_detail(video_url: str, session: str | None = None) -> dict[str,
 (() => {
   const text = (selector) =>
     (document.querySelector(selector)?.textContent || '').replace(/\s+/g, ' ').trim();
+  const firstUrl = (value) => {
+    const item = Array.isArray(value) ? value[0] : value;
+    if (typeof item === 'string') return item;
+    return item?.src || item?.url || '';
+  };
   const e2e = {};
   document.querySelectorAll('[data-e2e]').forEach((element) => {
     const key = element.getAttribute('data-e2e');
@@ -188,19 +193,40 @@ def douyin_video_detail(video_url: str, session: str | None = None) -> dict[str,
   const related = e2e['related-video'] || '';
   const relatedAuthor = related.match(/^(.+?)(?:粉丝|获赞|关注)/)?.[1] || '';
   const pathname = location.pathname.replace(/\/$/, '');
+  // Douyin's current desktop player uses a MediaSource ``blob:`` URL and
+  // separate DASH tracks. The React player config still exposes a progressive
+  // MP4 in awemeInfo.video.playAddr, which includes audio and is suitable for
+  // downloading without an external muxer.
+  const aweme = window.player?.config?.awemeInfo || {};
+  const videoInfo = aweme.video || {};
+  const downloadInfo = aweme.download || {};
+  const stats = aweme.stats || {};
+  const structuredVideoUrl =
+    firstUrl(videoInfo.playAddr)
+    || videoInfo.playApi
+    || downloadInfo.url
+    || firstUrl(downloadInfo.urlList)
+    || firstUrl(videoInfo.playAddrH265)
+    || videoInfo.playApiH265
+    || '';
+  const createTime = Number(aweme.createTime || aweme.create_time || 0);
 
   return {
-    aweme_id: pathname.split('/').pop() || '',
-    desc: e2e['detail-video-info'] || text('h1') || '',
-    author: text('[data-e2e="detail-video-author-name"]')
+    aweme_id: aweme.awemeId || aweme.aweme_id || pathname.split('/').pop() || '',
+    desc: aweme.desc || e2e['detail-video-info'] || text('h1') || '',
+    author: aweme.authorInfo?.nickname
+      || aweme.authorInfo?.name
+      || text('[data-e2e="detail-video-author-name"]')
       || (authorLink?.textContent || '').trim()
       || relatedAuthor,
-    likes: e2e['video-player-digg'] || '',
-    comments: e2e['feed-comment-icon'] || '',
-    collects: e2e['video-player-collect'] || '',
-    shares: e2e['video-player-share'] || '',
-    publish_time: e2e['detail-video-publish-time'] || '',
-    video_url: source?.src || video?.currentSrc || video?.src || ''
+    likes: stats.diggCount ?? e2e['video-player-digg'] ?? '',
+    comments: stats.commentCount ?? e2e['feed-comment-icon'] ?? '',
+    collects: stats.collectCount ?? e2e['video-player-collect'] ?? '',
+    shares: stats.shareCount ?? e2e['video-player-share'] ?? '',
+    publish_time: createTime
+      ? new Date(createTime * 1000).toISOString()
+      : e2e['detail-video-publish-time'] || '',
+    video_url: structuredVideoUrl || source?.src || video?.currentSrc || video?.src || ''
   };
 })()
 """.strip()
