@@ -69,11 +69,15 @@ curl -su $PM_USER:$PM_PASS -X POST $PM_URL/api/todos \
 
 ## 环境变量
 
-以下变量已经在 shell 里配好了,直接用即可:
+以下变量应在 shell 中配置好。如果执行 curl 时遇到 401,说明变量未设置,请先在项目根目录执行:
+
+source .env
+
+(`.env` 已 gitignore,包含实际凭据)
 
 - `$PM_URL` = http://47.109.45.135
 - `$PM_USER` = zhanghao
-- `$PM_PASS` = Basic Auth 密码
+- `$PM_PASS` = 见 .env 文件
 
 ## 不要做
 
