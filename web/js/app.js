@@ -149,6 +149,8 @@ window.showItemDetail = async function(unitId) {
       <div class="modal-field"><div class="label">Trigger</div><div class="value">${escapeHtml(item.trigger || "")}</div></div>
       <div class="modal-field"><div class="label">Reason</div><div class="value">${escapeHtml(item.reason || "")}</div></div>
       <div class="modal-field"><div class="label">Confidence</div><div class="value">${escapeHtml(item.confidence || "")}</div></div>
+      ${item.summary ? `<div class="modal-field"><div class="label">Summary</div><div class="value">${escapeHtml(item.summary)}</div></div>` : ""}
+      ${item.tags ? `<div class="modal-field"><div class="label">Tags</div><div class="value">${(() => { try { return JSON.parse(item.tags).map(t => '<span class="tag">' + escapeHtml(t) + '</span>').join(''); } catch { return escapeHtml(item.tags); } })()}</div></div>` : ""}
       <div class="modal-field"><div class="label">Source Path</div><div class="value" style="font-family:monospace;font-size:12px;word-break:break-all;">${escapeHtml(item.source_path || "")}</div></div>
       ${item.raw_content ? `<div class="modal-field"><div class="label">Raw Text</div><div class="value" style="white-space:pre-wrap;max-height:200px;overflow-y:auto;font-size:13px;">${escapeHtml(item.raw_content)}</div></div>` : ""}
       <div class="modal-actions">

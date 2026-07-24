@@ -31,6 +31,8 @@ def write_seed(rec: dict) -> Path:
         "reason": verdict.get("reason"),
         "confidence": verdict.get("confidence"),
         "priority": verdict.get("priority", "normal"),
+        "summary": verdict.get("summary", ""),
+        "tags": verdict.get("tags", []),
         "status": "pending",
         "title": title,
     })
@@ -57,10 +59,12 @@ def write_asset(rec: dict) -> Path:
         "parsed_at": datetime.now().strftime("%Y-%m-%d"),
         "reason": verdict.get("reason"),
         "confidence": verdict.get("confidence"),
+        "summary": verdict.get("summary", ""),
+        "tags": verdict.get("tags", []),
         "title": title,
     })
     body = fetch_unit_content(rec)
-    summary = body[:300].replace("\n", " | ")
+    summary = verdict.get("summary") or body[:300].replace("\n", " | ")
     out.write_text(
         fm + f"\n# {title}\n\n**Reason**: {verdict.get('reason','')}\n\n"
         f"**Preview**: {summary}\n\n[source]({rec['source_path']})\n",
@@ -87,6 +91,7 @@ def write_archive(rec: dict) -> Path:
         "verdict": "archive",
         "category": verdict.get("category"),
         "reason": verdict.get("reason"),
+        "tags": verdict.get("tags", []),
         "title": title,
     })
     out.write_text(fm + f"\n# {title}\n\n_metadata only.\n", encoding="utf-8")
@@ -99,6 +104,11 @@ def run(rewrite: bool = False, db_path: Path = None) -> dict:
     run_id = db.create_run(stage=PipelineStage.POOL.value, db_path=db_path)
     counters = {"seed": 0, "asset": 0, "archive": 0, "skip_existing": 0, "error": 0}
     for item in classified:
+        tags_raw = item.get("tags", "")
+        try:
+            tags = json.loads(tags_raw) if tags_raw else []
+        except (json.JSONDecodeError, TypeError):
+            tags = []
         rec = {**item, "verdict": {
             "verdict": item["verdict"],
             "category": item.get("category", ""),
@@ -106,6 +116,8 @@ def run(rewrite: bool = False, db_path: Path = None) -> dict:
             "reason": item.get("reason", ""),
             "confidence": item.get("confidence", ""),
             "priority": item.get("priority", "normal"),
+            "summary": item.get("summary", ""),
+            "tags": tags,
         }}
         if not rewrite and find_pooled_file(item["unit_id"], item["title"]):
             counters["skip_existing"] += 1

@@ -53,6 +53,8 @@ class ItemVerdictUpdate(BaseModel):
     reason: str = ""
     confidence: str = ""
     priority: str = "normal"
+    summary: str = ""
+    tags: list[str] = []
 
 
 class ItemStatusUpdate(BaseModel):
@@ -85,7 +87,8 @@ def get_item(unit_id: str):
 @app.patch("/api/items/{unit_id}/verdict")
 def patch_item_verdict(unit_id: str, body: ItemVerdictUpdate):
     db.update_item_verdict(unit_id, body.verdict, body.category, body.trigger,
-                           body.reason, body.confidence, body.priority)
+                           body.reason, body.confidence, body.priority,
+                           summary=body.summary, tags=body.tags)
     db.log_event("Item.Classified", item_id=unit_id,
                  payload={"verdict": body.verdict, "manual": True})
     return {"ok": True}
