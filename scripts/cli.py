@@ -16,6 +16,7 @@ from llkc.stages import parser as parser_stage
 from llkc.stages import write_back as write_back_stage
 from llkc.stages import daily_thinking as daily_thinking_stage
 from llkc.stages import writer as writer_stage
+from llkc.stages import daily_brief as daily_brief_stage
 from llkc import pipeline
 
 
@@ -51,6 +52,11 @@ def cmd_writer(args):
     result = writer_stage.run(
         target_date=args.date, model=args.model, force=args.force,
         allow_empty=args.allow_empty)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def cmd_brief(args):
+    result = daily_brief_stage.run(target_date=args.date)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
@@ -135,6 +141,10 @@ def main():
 
     p_incr = sub.add_parser("incremental", help="Full incremental pipeline (scan+classify+pool)")
     p_incr.set_defaults(func=cmd_incremental)
+
+    p_brief = sub.add_parser("brief", help="Generate daily brief")
+    p_brief.add_argument("--date", default=None, help="Target date (YYYY-MM-DD)")
+    p_brief.set_defaults(func=cmd_brief)
 
     p_think = sub.add_parser("thinking", help="Generate daily thinking document")
     p_think.add_argument("--date", default=None)

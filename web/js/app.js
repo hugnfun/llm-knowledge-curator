@@ -495,3 +495,66 @@ document.getElementById("btn-ingest-submit").addEventListener("click", async () 
 
 loadStats();
 loadMaterials();
+
+// --- Daily Brief ---
+async function loadBriefs() {
+  try {
+    const data = await api("/api/daily-brief");
+    const container = document.getElementById("brief-list");
+    if (!data.briefs || data.briefs.length === 0) {
+      container.innerHTML = '<div class="empty">No briefs yet. Click "Generate Today".</div>';
+      return;
+    }
+    container.innerHTML = data.briefs.map(b => {
+      const top = (() => { try { return JSON.parse(b.top_seeds || "[]"); } catch { return []; } })();
+      const actions = (() => { try { return JSON.parse(b.actions || "[]"); } catch { return []; } })();
+      const projects = (() => { try { return JSON.parse(b.project_matches || "{}"); } catch { return {}; } })();
+      return `<div class="card">
+        <div class="card-header">
+          <h3>${b.date}</h3>
+          <div>
+            <span class="tag tag-seed">S:${b.seed_count}</span>
+            <span class="tag tag-asset">A:${b.asset_count}</span>
+            <span class="tag tag-archive">X:${b.archive_count}</span>
+          </div>
+        </div>
+        ${top.length ? `<div class="card-trigger">Seeds: ${top.map(s => escapeHtml(s.title?.slice(0,30)||"")).join(" | ")}</div>` : ""}
+        ${actions.length ? `<div class="card-meta">${actions.map(a => "- " + escapeHtml(a)).join("<br>")}</div>` : ""}
+        ${Object.keys(projects).length ? `<div class="card-meta">Projects: ${Object.entries(projects).map(([k,v]) => escapeHtml(k)+":"+v).join(" | ")}</div>` : ""}
+      </div>`;
+    }).join("");
+  } catch (e) {
+    console.error("loadBriefs", e);
+  }
+}
+
+document.getElementById("btn-gen-brief")?.addEventListener("click", async () => {
+  const btn = document.getElementById("btn-gen-brief");
+  btn.disabled = true;
+  btn.textContent = "Generating...";
+  try {
+    await api("/api/daily-brief/generate", { method: "POST" });
+    await loadBriefs();
+  } catch (e) {
+    alert("Failed: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Generate Today";
+  }
+});
+
+// Hook into tab switching
+const origTabHandler = window.switchTab;
+window.switchTab = function(view) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  const el = document.getElementById("view-" + view);
+  if (el) el.classList.add("active");
+  const tab = document.querySelector(`.tab[data-view="${view}"]`);
+  if (tab) tab.classList.add("active");
+  if (view === "brief") loadBriefs();
+};
+// Re-bind tab clicks
+document.querySelectorAll(".tab").forEach(t => {
+  t.onclick = () => window.switchTab(t.dataset.view);
+});

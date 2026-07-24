@@ -16,6 +16,7 @@
     <div class="nav-tabs">
       <button class="tab active" data-view="materials">Material Pool</button>
       <button class="tab" data-view="pipeline">Pipeline</button>
+      <button class="tab" data-view="brief">Daily Brief</button>
       <button class="tab" data-view="thinking">Daily Thinking</button>
       <button class="tab" data-view="drafts">Drafts</button>
     </div>
@@ -59,6 +60,14 @@
     </section>
 
     <!-- Daily Thinking View -->
+    <section id="view-brief" class="view">
+      <div class="view-header">
+        <h2>Daily Brief</h2>
+        <button class="btn" id="btn-gen-brief">Generate Today</button>
+      </div>
+      <div id="brief-list" class="card-list"></div>
+    </section>
+
     <section id="view-thinking" class="view">
       <div class="view-header">
         <h2>Daily Thinking</h2>

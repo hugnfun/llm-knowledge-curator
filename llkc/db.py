@@ -67,6 +67,19 @@ CREATE TABLE IF NOT EXISTS daily_thinking (
     updated_at TEXT DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS daily_brief (
+    date       TEXT PRIMARY KEY,
+    new_count  INTEGER DEFAULT 0,
+    seed_count INTEGER DEFAULT 0,
+    asset_count INTEGER DEFAULT 0,
+    archive_count INTEGER DEFAULT 0,
+    top_seeds  TEXT,
+    actions    TEXT,
+    project_matches TEXT,
+    raw_json   TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS drafts (
     id            TEXT PRIMARY KEY,
     thinking_date TEXT,
@@ -470,6 +483,35 @@ def list_daily_thinking(limit=30, db_path=None) -> list[dict]:
 
 
 # --- Drafts ---
+
+
+def upsert_daily_brief(date, new_count=0, seed_count=0, asset_count=0,
+                        archive_count=0, top_seeds="", actions="",
+                        project_matches="", raw_json="", db_path=None):
+    with get_conn(db_path) as c:
+        c.execute("""INSERT INTO daily_brief (date, new_count, seed_count, asset_count,
+                     archive_count, top_seeds, actions, project_matches, raw_json)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     ON CONFLICT(date) DO UPDATE SET
+                     new_count=excluded.new_count, seed_count=excluded.seed_count,
+                     asset_count=excluded.asset_count, archive_count=excluded.archive_count,
+                     top_seeds=excluded.top_seeds, actions=excluded.actions,
+                     project_matches=excluded.project_matches, raw_json=excluded.raw_json""",
+                  (date, new_count, seed_count, asset_count, archive_count,
+                   top_seeds, actions, project_matches, raw_json))
+
+
+def get_daily_brief(date, db_path=None) -> Optional[dict]:
+    with get_conn(db_path) as c:
+        return row_to_dict(c.execute(
+            "SELECT * FROM daily_brief WHERE date=?", (date,)).fetchone())
+
+
+def list_daily_brief(limit=30, db_path=None) -> list[dict]:
+    with get_conn(db_path) as c:
+        return [row_to_dict(r) for r in c.execute(
+            "SELECT * FROM daily_brief ORDER BY date DESC LIMIT ?", (limit,)).fetchall()]
+
 
 def insert_draft(draft: dict, db_path=None):
     with get_conn(db_path) as c:

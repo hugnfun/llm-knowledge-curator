@@ -3,3 +3,6 @@
 
 # Qwen3TTS/STT health check: every 15 minutes, auto-restart if down.
 */15 * * * * /bin/bash "/Users/aicer/Documents/Project/llm-knowledge-curator/scripts/health_check.sh"
+
+# Daily Brief: 07:00 generate summary of new items + distribution + actions
+0 7 * * * /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/aicer/Documents/Project/llm-knowledge-curator/scripts/cli.py brief >> /Users/aicer/Documents/Project/llm-knowledge-curator/output/cron_logs/brief.log 2>&1

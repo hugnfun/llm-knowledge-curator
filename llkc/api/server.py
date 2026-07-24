@@ -235,6 +235,31 @@ class DraftStatusUpdate(BaseModel):
     status: str
 
 
+
+# --- Daily Brief ---
+
+@app.get("/api/daily-brief")
+def list_daily_brief(limit: int = Query(30, le=100)):
+    briefs = db.list_daily_brief(limit=limit)
+    return {"briefs": briefs}
+
+
+@app.get("/api/daily-brief/{target_date}")
+def get_daily_brief(target_date: str):
+    brief = db.get_daily_brief(target_date)
+    if not brief:
+        raise HTTPException(404, "brief not found")
+    raw = json.loads(brief.get("raw_json") or "{}") if brief.get("raw_json") else {}
+    return {"brief": brief, "parsed": raw}
+
+
+@app.post("/api/daily-brief/generate")
+def generate_daily_brief(target_date: Optional[str] = None):
+    from ..stages import daily_brief
+    result = daily_brief.run(target_date=target_date)
+    return result
+
+
 @app.get("/api/drafts")
 def list_drafts(date: Optional[str] = None, status: Optional[str] = None):
     return {"drafts": db.get_drafts(date=date, status=status)}
