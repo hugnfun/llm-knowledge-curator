@@ -8,6 +8,29 @@ from llkc.stages import parser
 
 
 class ParserV03PromptTests(unittest.TestCase):
+    def test_extract_json_handles_markdown_code_block(self):
+        from llkc.llm_client import extract_json
+        text = '```json\n{"verdict": "seed", "category": "共鸣补充"}\n```'
+        result = extract_json(text)
+        self.assertEqual(result["verdict"], "seed")
+
+    def test_extract_json_handles_truncated_json(self):
+        from llkc.llm_client import extract_json
+        text = '{"verdict": "asset", "category": "工具"'
+        result = extract_json(text)
+        self.assertEqual(result["verdict"], "asset")
+
+    def test_extract_json_handles_plain_json(self):
+        from llkc.llm_client import extract_json
+        text = '{"verdict": "archive", "reason": "test"}'
+        result = extract_json(text)
+        self.assertEqual(result["verdict"], "archive")
+
+    def test_extract_json_raises_on_empty(self):
+        from llkc.llm_client import extract_json
+        with self.assertRaises(ValueError):
+            extract_json("")
+
     def test_config_uses_v03_prompt(self):
         self.assertEqual(config.PARSER_PROMPT_PATH.name, "parser_v0.3.md")
         self.assertTrue(config.PARSER_PROMPT_PATH.exists())

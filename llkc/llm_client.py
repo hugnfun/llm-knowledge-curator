@@ -56,10 +56,35 @@ def _do_call(payload, api_base, api_key, timeout, max_retry, attempt) -> dict:
 
 def extract_json(text: str) -> dict:
     """Extract a single JSON object from LLM output."""
-    m = re.search(r"\{[\s\S]*\}", text)
-    if not m:
-        raise ValueError(f"no json in response: {text[:200]}")
-    return json.loads(m.group(0))
+    if not text or not text.strip():
+        raise ValueError("empty response")
+    # Strip markdown code fences
+    stripped = re.sub(r"^```(?:json)?\s*", "", text.strip())
+    stripped = re.sub(r"\s*```$", "", stripped)
+    # Try direct parse first
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        pass
+    # Try regex extract
+    m = re.search(r"\{[\s\S]*\}", stripped)
+    if m:
+        try:
+            return json.loads(m.group(0))
+        except json.JSONDecodeError:
+            pass
+    # Try repairing truncated JSON by adding closing braces
+    m = re.search(r"\{[\s\S]*", stripped)
+    if m:
+        fragment = m.group(0)
+        open_braces = fragment.count("{") - fragment.count("}")
+        if open_braces > 0:
+            repaired = fragment + "}" * open_braces
+            try:
+                return json.loads(repaired)
+            except json.JSONDecodeError:
+                pass
+    raise ValueError(f"cannot parse JSON from: {text[:200]}")
 
 
 def extract_json_array(text: str) -> list:
