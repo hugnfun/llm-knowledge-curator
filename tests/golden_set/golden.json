@@ -1,0 +1,682 @@
+[
+  {
+    "unit_id": "clippings-007",
+    "source": "clippings",
+    "title": "630亿蓝海？老龄宠物真正需要什么",
+    "sample_tag": "step1_dog",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "宠物护理行业市场分析,用户宠物关注点是账号运营而非产业链",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "clippings-062",
+    "source": "clippings",
+    "title": "利用吉卜力,我找到了下一个爆火的SEO关键词",
+    "sample_tag": "step1_dog",
+    "current_verdict": "seed",
+    "current_category": "概念/方法论",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "词根法挖词思路对,可以补充用Agent自动化批量挖掘和监控飙升词的流程",
+      "reason": "SEO方法论与用户关注点直接重合,有具体可补充角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "clippings-077",
+    "source": "clippings",
+    "title": "字节每月 6000W 预算花不完——2026 最安静的搞钱机会",
+    "sample_tag": "step1_dog",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "海外短剧分销资讯,非用户AI/Agent核心关注方向",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "clippings-099",
+    "source": "clippings",
+    "title": "暴利的宠物，大厂的坟墓",
+    "sample_tag": "step1_dog",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "宠物经济靠人赚钱的洞察很准,我的宠物账号走IP路线恰好验证了不靠规模靠人的逻辑",
+      "reason": "宠物经济系统性分析撞用户宠物+商业模型双关注点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "clippings-100",
+    "source": "clippings",
+    "title": "最离谱的AI搞钱方式，诞生了",
+    "sample_tag": "step1_dog",
+    "current_verdict": "seed",
+    "current_category": "案例",
+    "golden": {
+      "verdict": "asset",
+      "category": "案例",
+      "trigger": "",
+      "reason": "AI倒爷现象描述属案例,无原创系统性观点",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-109",
+    "source": "clippings",
+    "title": "老龄宠物630亿蓝海：是真需求，还是被高估的伪概念？",
+    "sample_tag": "step1_dog",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "宠物老龄化市场批判分析,与用户宠物账号运营关注点不直接重合",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "telegram-0442",
+    "source": "telegram",
+    "title": "如何使用 Codex 快速入门任何一个领域",
+    "sample_tag": "step3_tool",
+    "current_verdict": "archive",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "讨论Codex/Claude Code使用方法但属教程性质无原创观点,工具元话题标记高优先级",
+      "confidence": "high",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "telegram-0009",
+    "source": "telegram",
+    "title": "大家不要把算法大牛的那些终局思考放到现实中来",
+    "sample_tag": "step3_tool",
+    "current_verdict": "seed",
+    "current_category": "概念/方法论",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "分享副业平台链接,无原创观点展开,属资源资讯",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "clippings-019",
+    "source": "clippings",
+    "title": "Gemini3+飞书多维表格，批量扒抖音爆款&自动二创，太爽了！【喂饭级教程】",
+    "sample_tag": "step3_tool",
+    "current_verdict": "asset",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "飞书自动化工作流教程,涉及在用工具但属纯操作指南无观点",
+      "confidence": "high",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "clippings-001",
+    "source": "clippings",
+    "title": "2025公众号依然值得做吗？怎么提高写出订阅号出爆文的概率？我总结了6点经验",
+    "sample_tag": "step3_tool",
+    "current_verdict": "asset",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "公众号写作经验分享,属纯教程无原创系统性观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0110",
+    "source": "telegram",
+    "title": "🔥AI延时是最好挣钱的宣传片元素",
+    "sample_tag": "step3_tool",
+    "current_verdict": "asset",
+    "current_category": "案例",
+    "golden": {
+      "verdict": "asset",
+      "category": "方法论",
+      "trigger": "",
+      "reason": "16步创业清单多为常识堆叠,缺具体反共识角度",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0093",
+    "source": "telegram",
+    "title": "OpenClaw 官网: https://openclaw.ai/",
+    "sample_tag": "step3_tool",
+    "current_verdict": "asset",
+    "current_category": "工具",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "Hermes自动更新工作流描述,涉及在用工具但属技术SOP无观点",
+      "confidence": "high",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "telegram-0003",
+    "source": "telegram",
+    "title": "AI提示词越通用，内容越平庸，亲测有效的解决方案",
+    "sample_tag": "step2a_help",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "新媒体账号拆解方法论属纯教程,无原创系统性观点",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-002",
+    "source": "clippings",
+    "title": "2025年，我的生产力设备里留下了这些优秀工具",
+    "sample_tag": "step2a_help",
+    "current_verdict": "asset",
+    "current_category": "工具",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "生产力工具推荐清单含Obsidian,但属纯罗列无原创批判观点",
+      "confidence": "high",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "telegram-0445",
+    "source": "telegram",
+    "title": "我在想有没有那种适合纯小白的 AI 课程，是真的在教学的那种。",
+    "sample_tag": "step2a_help",
+    "current_verdict": "asset",
+    "current_category": "案例",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "内容实际讨论Claude Code项目结构,属工具教程无观点,标记高优先级",
+      "confidence": "medium",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "telegram-0407",
+    "source": "telegram",
+    "title": "与 AI 一起做产品的六条原则",
+    "sample_tag": "step2b_list",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "AI做产品六原则中减法思维很关键,我可以补充Agent工作流中如何系统性做减法的实践",
+      "reason": "AI产品开发原则撞用户AI+产品化关注点,每条都有具体案例可补充",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "telegram-0505",
+    "source": "telegram",
+    "title": "普通人逆袭的24个黄金法则",
+    "sample_tag": "step2b_list",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "读书感想讨论历史决定论,与用户AI/Agent核心方向无直接重合",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "telegram-0447",
+    "source": "telegram",
+    "title": "这篇介绍艾伦·阿尔达“三条表达法则”的文章，对任何形式的沟通都很有启发。其核心原则是： 1. 一次只讲不超过三个重点； 2. 遇到复杂概念时，尝试用三种不同方式",
+    "sample_tag": "step2b_list",
+    "current_verdict": "asset",
+    "current_category": "概念",
+    "golden": {
+      "verdict": "asset",
+      "category": "方法论",
+      "trigger": "",
+      "reason": "三条表达法则均为常识堆叠,无展开无证据,抓不出具体可补充角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step2_anti_seed"
+    }
+  },
+  {
+    "unit_id": "clippings-012",
+    "source": "clippings",
+    "title": "AI搞钱15条路：从月入3千到年入30万的实操地图，全是真人真事",
+    "sample_tag": "step2b_list",
+    "current_verdict": "asset",
+    "current_category": "案例",
+    "golden": {
+      "verdict": "asset",
+      "category": "案例",
+      "trigger": "",
+      "reason": "15条AI搞钱路径属案例汇编,有具体数据但无原创系统性观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step2_anti_seed"
+    }
+  },
+  {
+    "unit_id": "clippings-003",
+    "source": "clippings",
+    "title": "2026 年是个临界点：利用 AI 工具的 1 人公司或小规模公司能创造数百万美元的收入",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "SaaS崩塌和结果导向定价的判断准确,我可以补充一人公司用Agent栈替代30人团队的实操路径",
+      "reason": "AI商业洞察直接撞用户AI+一人公司+商业模式三重关注点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "clippings-073",
+    "source": "clippings",
+    "title": "如何成为精力旺盛的人——一个 90 天反向路径",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "概念/方法论",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "精力管理属个人成长,与用户AI/Agent核心方向无直接重合",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "telegram-0070",
+    "source": "telegram",
+    "title": "这两天顺着 toolify 榜单又挖了 7 个还挺有意思的垂直 AI 产品，随手记个小结👇",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "垂直AI产品选品思路对,我可以补充用toolify数据自动挖掘和验证细分赛道的Agent流程",
+      "reason": "垂直AI产品分析撞用户AI+独立开发关注点,含产品化可补充角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "telegram-0090",
+    "source": "telegram",
+    "title": "有点不想承认，但现在的事实是：",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "从OpenClaw换Hermes的实践跟我一致,Claude做SSOT单向同步Hermes的架构可以补充细节",
+      "reason": "直接讨论在用工具OpenClaw/Hermes的切换决策,含原创实践观点",
+      "confidence": "high",
+      "priority": "high",
+      "decision_step": "step3_tool"
+    }
+  },
+  {
+    "unit_id": "telegram-0354",
+    "source": "telegram",
+    "title": "昨天见了一个非常牛逼的Agent团队，我敢说在国内绝对是T0的级别（之前DPSK还找他们搞了点Agent数据）",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "TS适合Agent的论证有道理,我可以补充类型系统对tool schema安全性的具体实践",
+      "reason": "Agent技术选型分析撞用户AI/Agent核心关注点,含系统性论证可补充",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "telegram-0465",
+    "source": "telegram",
+    "title": "#出海运营秘籍👉@yunying23",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "designmd.me工具推荐,属纯工具资讯无原创系统性观点",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-004",
+    "source": "clippings",
+    "title": "2026年春节起号短视频爆火话题文案模板拆解！",
+    "sample_tag": "seed_random",
+    "current_verdict": "asset",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "春节短视频选题和文案模板,属纯教程无原创观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0511",
+    "source": "telegram",
+    "title": "Anthropic 发布的《Claude Skill 构建指南》pdf 版，一共 33 页，可下载",
+    "sample_tag": "asset_random",
+    "current_verdict": "asset",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "内容为读书感想,标题与内容不匹配,与用户核心关注点无直接重合",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "telegram-0100",
+    "source": "telegram",
+    "title": "今日份的作业是电影级的Cosplay海报，至于是什么电影你别管，成图都是我审过的，不健康的都没发出来。",
+    "sample_tag": "asset_random",
+    "current_verdict": "asset",
+    "current_category": "Prompt",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "Cosplay海报提示词模板,属Prompt工具素材无原创观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-005",
+    "source": "clippings",
+    "title": "30岁上下的人，AI最是你们的机会。有人会上，有人会下。",
+    "sample_tag": "asset_random",
+    "current_verdict": "archive",
+    "current_category": "他人思考",
+    "golden": {
+      "verdict": "archive",
+      "category": "",
+      "trigger": "",
+      "reason": "AI机会论属泛泛观点,建议过于笼统,与用户深度关注点不匹配",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step6_archive"
+    }
+  },
+  {
+    "unit_id": "clippings-006",
+    "source": "clippings",
+    "title": "45天GMV 7000+美金，「海外版抖音CPS」的赚钱思路",
+    "sample_tag": "asset_random",
+    "current_verdict": "archive",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "海外版抖音CPS赚钱教程,属纯操作指南无原创系统性观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-008",
+    "source": "clippings",
+    "title": "8000字干货！像素级拆解了20篇公众号爆文后我发现，原来10万+爆文是这样写出来的",
+    "sample_tag": "asset_random",
+    "current_verdict": "asset",
+    "current_category": "方法论",
+    "golden": {
+      "verdict": "asset",
+      "category": "方法论",
+      "trigger": "",
+      "reason": "公众号爆文拆解方法论,属纯写作教程无原创系统性观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-009",
+    "source": "clippings",
+    "title": "AI 时代，我的知识管理系统（2025 版）",
+    "sample_tag": "archive_random",
+    "current_verdict": "asset",
+    "current_category": "概念/方法论",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "CARD系统思路跟我正在做的知识库改造重合,我可以补充判别器作为Capture和Deploy之间的AI筛选层",
+      "reason": "知识管理系统撞用户知识库+AI关注点,含可补充的具体架构角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "clippings-010",
+    "source": "clippings",
+    "title": "AI一天一个微信小程序实操版",
+    "sample_tag": "archive_random",
+    "current_verdict": "asset",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "AI开发微信小程序实操教程,属纯操作指南无原创观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0392",
+    "source": "telegram",
+    "title": "经过了3轮测试，得出流量的结论",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "他人思考",
+    "golden": {
+      "verdict": "asset",
+      "category": "方法论",
+      "trigger": "",
+      "reason": "流量结论六条均为经验堆叠无展开,抓不出具体可补充角度",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-011",
+    "source": "clippings",
+    "title": "AI做公众号和小红书新手常犯的框架思维，看完让你效率翻倍",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "教程",
+    "golden": {
+      "verdict": "asset",
+      "category": "教程",
+      "trigger": "",
+      "reason": "AI自媒体写作框架教程,属纯方法论无原创系统性观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0467",
+    "source": "telegram",
+    "title": "最近半年听过最好的一期AI播客。 今天在出差的路上，听了一期 AI 播客，很有启发。 和我之前看过的大多数 AI 播客不太一样，这一期聊的不是模型、工具或者创业",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "内容实际为designmd.me工具推荐,标题与内容不匹配,属工具资讯",
+      "confidence": "medium",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "clippings-023",
+    "source": "clippings",
+    "title": "No.1 - 关于 AI 的 107 个人，61 个工具和 28 个通讯",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "AI领域Twitter关注清单,属纯资源列表无原创观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0304",
+    "source": "telegram",
+    "title": "为什么有人学什么都比你快？秘密在于这个框架！",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "asset",
+      "category": "方法论",
+      "trigger": "",
+      "reason": "学习框架三条均为常识堆叠,无展开无证据,抓不出具体可补充角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  },
+  {
+    "unit_id": "telegram-0218",
+    "source": "telegram",
+    "title": "时报作家Ezra Klein写了一篇专栏，说根据他的采访记录，AI导致大规模失业的情况可能还没有那么严重，坏消息是，严重的问题另有其处：",
+    "sample_tag": "seed_random",
+    "current_verdict": "seed",
+    "current_category": "共鸣补充",
+    "golden": {
+      "verdict": "seed",
+      "category": "共鸣补充",
+      "trigger": "稀缺性转移的论证深刻,我可以补充AI时代'人味即稀缺'如何转化为产品定价策略",
+      "reason": "AI就业影响深度分析撞用户AI关注点,含反直觉论证和可补充角度",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step4_focus"
+    }
+  },
+  {
+    "unit_id": "telegram-0400",
+    "source": "telegram",
+    "title": "🚀发现了一个宝藏开源项目，已经斩获 29k stars，登上 github 热榜第一",
+    "sample_tag": "archive_random",
+    "current_verdict": "archive",
+    "current_category": "事件",
+    "golden": {
+      "verdict": "asset",
+      "category": "工具",
+      "trigger": "",
+      "reason": "开源架构图工具推荐,属纯工具资讯无原创观点",
+      "confidence": "high",
+      "priority": "normal",
+      "decision_step": "step5_tutorial"
+    }
+  }
+]
