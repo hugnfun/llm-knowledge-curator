@@ -156,7 +156,6 @@ def init_db(db_path: Optional[Path] = None) -> Path:
         dcols = {r[1] for r in c.execute("PRAGMA table_info(drafts)")}
         if "original_body" not in dcols:
             c.execute("ALTER TABLE drafts ADD COLUMN original_body TEXT")
-            c.execute("ALTER TABLE items ADD COLUMN tags TEXT")
     return path
 
 
