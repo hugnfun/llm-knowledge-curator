@@ -276,7 +276,24 @@ def generate_drafts(body: DraftGenerateRequest):
 def patch_draft_status(draft_id: str, body: DraftStatusUpdate):
     db.update_draft_status(draft_id, body.status)
     db.log_event("Draft.Selected", payload={"draft_id": draft_id, "status": body.status})
+    # Auto-trigger polish when status -> selected
+    if body.status == "selected":
+        try:
+            from ..stages import polish as polish_stage
+            result = polish_stage.polish_draft(draft_id)
+            return {"ok": True, "status": body.status, "polish": result}
+        except Exception as e:
+            return {"ok": True, "status": body.status, "polish_error": str(e)}
     return {"ok": True}
+
+
+@app.post("/api/drafts/{draft_id}/polish")
+def polish_draft_endpoint(draft_id: str):
+    from ..stages import polish as polish_stage
+    result = polish_stage.polish_draft(draft_id)
+    if not result.get("ok"):
+        raise HTTPException(400, result.get("error", "polish failed"))
+    return result
 
 
 # --- Stats ---

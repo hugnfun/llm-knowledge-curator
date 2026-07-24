@@ -66,6 +66,7 @@ API_PORT: int = int(_env("LLKC_API_PORT", "8765"))
 
 # --- Prompt paths ---
 PARSER_PROMPT_PATH: Path = PROMPTS_DIR / "parser_v0.3.md"
+POLISH_PROMPT_PATH: Path = PROMPTS_DIR / "polish_v0.1.md"
 WRITER_PROMPT_PATH: Path = PROMPTS_DIR / "writer_v0.1.md"
 
 

@@ -371,13 +371,32 @@ async function loadDraftsForDate(targetDate) {
         <div class="draft-body">${escapeHtml((d.body || d.draft || "").slice(0, 500))}</div>
         ${d.hook ? `<div class="draft-hook">> ${escapeHtml(d.hook)}</div>` : ""}
         <div class="draft-actions-bar">
+          <span class="tag ${d.status === 'selected' ? 'tag-seed' : d.status === 'polished' ? 'tag-asset' : ''}">${escapeHtml(d.status || 'candidate')}</span>
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'selected')">Select</button>
+          ${d.status === 'selected' || d.status === 'candidate' ? `<button class="btn btn-sm" onclick="polishDraft('${d.id}')">Polish</button>` : ""}
+          ${d.status === 'polished' ? `<button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'published')">Publish</button>` : ""}
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'dismissed')">Dismiss</button>
         </div>
       </div>
     `).join("") || "<div style='color:#8a8378;padding:16px;'>No drafts. Click Generate.</div>";
   } catch(e) { toast("Failed: " + e.message, "error"); }
 }
+
+window.polishDraft = async function(draftId) {
+  toast("Polishing draft (may take 10-30s)...");
+  try {
+    const r = await api("/api/drafts/" + draftId + "/polish", {method: "POST"});
+    if (r.ok) {
+      toast("Polished: " + (r.changes || "").slice(0, 50));
+      const d = document.getElementById("draft-date").value;
+      loadDraftsForDate(d);
+    } else {
+      toast("Polish failed: " + (r.polish_error || r.error || ""), "error");
+    }
+  } catch (e) {
+    toast("Polish failed: " + e.message, "error");
+  }
+};
 
 window.updateDraftStatus = async function(draftId, status) {
   try {

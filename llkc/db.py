@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS drafts (
     image_count   INTEGER DEFAULT 0,
     linked_seeds  TEXT,
     status        TEXT DEFAULT 'candidate',
+    original_body TEXT,
     created_at    TEXT DEFAULT (datetime('now'))
 );
 
@@ -150,6 +151,11 @@ def init_db(db_path: Optional[Path] = None) -> Path:
         if "summary" not in cols:
             c.execute("ALTER TABLE items ADD COLUMN summary TEXT")
         if "tags" not in cols:
+            c.execute("ALTER TABLE items ADD COLUMN tags TEXT")
+        # Drafts migration
+        dcols = {r[1] for r in c.execute("PRAGMA table_info(drafts)")}
+        if "original_body" not in dcols:
+            c.execute("ALTER TABLE drafts ADD COLUMN original_body TEXT")
             c.execute("ALTER TABLE items ADD COLUMN tags TEXT")
     return path
 
@@ -549,6 +555,13 @@ def delete_drafts(date: str, db_path=None) -> int:
 def update_draft_status(draft_id, status, db_path=None):
     with get_conn(db_path) as c:
         c.execute("UPDATE drafts SET status=? WHERE id=?", (status, draft_id))
+
+
+def update_draft_polish(draft_id, headline, body, hook, original_body=None, db_path=None):
+    """Store polished version, preserving original."""
+    with get_conn(db_path) as c:
+        c.execute("""UPDATE drafts SET headline=?, body=?, hook=?, original_body=COALESCE(?, original_body), status='polished' WHERE id=?""",
+                  (headline, body, hook, original_body, draft_id))
 
 
 # --- Stats ---

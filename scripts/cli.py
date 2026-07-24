@@ -17,6 +17,7 @@ from llkc.stages import write_back as write_back_stage
 from llkc.stages import daily_thinking as daily_thinking_stage
 from llkc.stages import writer as writer_stage
 from llkc.stages import daily_brief as daily_brief_stage
+from llkc.stages import polish as polish_stage
 from llkc import pipeline
 
 
@@ -57,6 +58,11 @@ def cmd_writer(args):
 
 def cmd_brief(args):
     result = daily_brief_stage.run(target_date=args.date)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def cmd_polish(args):
+    result = polish_stage.run(draft_id=args.draft_id)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
@@ -145,6 +151,10 @@ def main():
     p_brief = sub.add_parser("brief", help="Generate daily brief")
     p_brief.add_argument("--date", default=None, help="Target date (YYYY-MM-DD)")
     p_brief.set_defaults(func=cmd_brief)
+
+    p_polish = sub.add_parser("polish", help="Polish a selected draft")
+    p_polish.add_argument("--draft-id", default=None, help="Draft ID (omit for all selected)")
+    p_polish.set_defaults(func=cmd_polish)
 
     p_think = sub.add_parser("thinking", help="Generate daily thinking document")
     p_think.add_argument("--date", default=None)
