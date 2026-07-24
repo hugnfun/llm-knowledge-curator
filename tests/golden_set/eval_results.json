@@ -1,37 +1,13 @@
 {
   "results": [
     {
-      "unit_id": "clippings-007",
+      "unit_id": "clippings-100",
       "ok": true,
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "老龄宠物市场分析启发我思考宠物服务模式的可迁移性",
-        "reason": "与宠物号关注点重合且可补充市场观察角度",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-077",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "字节预算花不完是个真机会，可以补充落地思路：用AI自动化做分发渠道，降低人力成本",
-        "reason": "与用户关注的营销/增长/商业模式重合，可补充具体操作细节",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-099",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "反规模化的宠物经济分析很到位，我可以从AI/Automation如何赋能这类行业的角度补充",
-        "reason": "文章拆解宠物经济商业模式，与用户关注商业模式和系统思维高度重合",
+        "trigger": "AI倒爷本质是认知套利，但长期价值在帮助银发族等群体跨越数字鸿沟，可补充服务化转型角度",
+        "reason": "文章分析AI倒爷模式，与商业模式关注点重合，含可补充视角",
         "confidence": "high",
         "priority": "normal"
       }
@@ -42,33 +18,75 @@
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "词根法确认有效,我可以补充自动监测词根的Agent设计思路",
-        "reason": "与用户SEO关注点重合,且有可补充的方法论角度",
+        "trigger": "词根法不错,可补充多词根组合及意图验证策略提升提前量",
+        "reason": "与增长/SEO关注点重合,原创方法论可补充角度",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "clippings-100",
+      "unit_id": "clippings-077",
       "ok": true,
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "AI倒爷本质是算力分配不均的寄生经济，我可以补充从产品化角度如何将这种信息差套利转化为可持续服务",
-        "reason": "拆解了AI套利模式且涉及商业模式与用户心理，可补充正规化视角",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "telegram-0009",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "通过平台数据反推方向是好思路,可补充如何用这些数据做选品决策",
-        "reason": "直接关联副业出海方向,且有可补充的操作细节",
+        "trigger": "字节烧钱出海短剧分发是窗口期，可以补充AI自动化分发工作流提高效率",
+        "reason": "与用户商业模式/增长关注点重合，可补充AI自动化分发角度",
         "confidence": "medium",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-099",
+      "ok": true,
+      "verdict": {
+        "verdict": "archive",
+        "category": "",
+        "trigger": "",
+        "reason": "宠物行业商业分析，与用户主要关注点（AI/Agent/独立开发）关联弱",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-007",
+      "ok": false,
+      "error": "json: empty response",
+      "raw": ""
+    },
+    {
+      "unit_id": "telegram-0442",
+      "ok": true,
+      "verdict": {
+        "verdict": "seed",
+        "category": "对立",
+        "trigger": "作者批评常见错误并给出结构性框架，可以对比我的知识库判别架构",
+        "reason": "工具元话题+原创批判观点，命中Step3",
+        "confidence": "high",
+        "priority": "high"
+      }
+    },
+    {
+      "unit_id": "clippings-109",
+      "ok": true,
+      "verdict": {
+        "verdict": "archive",
+        "category": "",
+        "trigger": "",
+        "reason": "行业市场分析，未涉及用户当前关注领域（AI/独立开发/内容创作等）",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-001",
+      "ok": true,
+      "verdict": {
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "纯公众号爆文经验教程，属方法论类资产",
+        "confidence": "high",
         "priority": "normal"
       }
     },
@@ -79,46 +97,16 @@
         "verdict": "asset",
         "category": "工具",
         "trigger": "",
-        "reason": "纯飞书多维表格+抖音采集二创教程，无原创观点，但涉及用户常用工具飞书，标记高优先级",
+        "reason": "纯粹工具教程无原创观点，但涉及飞书自动化平台，标记高优先级",
         "confidence": "high",
         "priority": "high"
       }
     },
     {
-      "unit_id": "clippings-109",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "老龄宠物蓝海分析框架不错，可补充中国消费降级下实际支付意愿的验证，以及抖音宠物账号如何切入适老用品内容",
-        "reason": "与用户宠物及商业模式关注点重合，有数据有痛点可补充批判角度",
-        "confidence": "medium",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "telegram-0442",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "对立",
-        "trigger": "Claude Code项目结构四要素模型有参考价值，可补充实际落地时的优先级排序",
-        "reason": "直接讨论Claude Code使用方法，含原创批判和框架，工具元话题命中",
-        "confidence": "high",
-        "priority": "high"
-      }
-    },
-    {
-      "unit_id": "clippings-001",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "公众号公域推荐逻辑验证了，可补充订阅机器人和多平台分发策略",
-        "reason": "内容具体且含可补充点，涉及用户关注的增长/营销话题",
-        "confidence": "high",
-        "priority": "normal"
-      }
+      "unit_id": "telegram-0009",
+      "ok": false,
+      "error": "json: empty response",
+      "raw": ""
     },
     {
       "unit_id": "telegram-0093",
@@ -127,43 +115,25 @@
         "verdict": "asset",
         "category": "工具",
         "trigger": "",
-        "reason": "Hermes自动更新操作教程，无原创观点，但命中工具元话题",
+        "reason": "分享OpenClaw自动更新教程，工具元话题无原创观点",
         "confidence": "high",
         "priority": "high"
       }
     },
     {
       "unit_id": "telegram-0110",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "他的'失败100次'量化目标不错，但我可以补充如何设定'成功指标'来加速迭代",
-        "reason": "独立/一人创业路径有具体步骤，可争议可补充，符合用户关注点",
-        "confidence": "high",
-        "priority": "normal"
-      }
+      "ok": false,
+      "error": "json: empty response",
+      "raw": ""
     },
     {
       "unit_id": "telegram-0445",
       "ok": true,
       "verdict": {
         "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "我补充了Claude Code项目的解剖学框架：目标、地图、规则、工作流",
-        "reason": "直接讨论在用工具Claude Code的用法且有原创观点",
-        "confidence": "high",
-        "priority": "high"
-      }
-    },
-    {
-      "unit_id": "clippings-002",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "作者的工具选型与我的思路基本一致，可补充我如何平衡数据主权与便捷性",
-        "reason": "命中工具元话题(Obsidian底座)且有原创观点",
+        "category": "对立",
+        "trigger": "作者说大多数把 CLAUDE.md 当提示词是错的，可补充为什么框架比提示词更重要",
+        "reason": "直接讨论 Claude Code 结构设计，有原创批判和新框架",
         "confidence": "high",
         "priority": "high"
       }
@@ -175,21 +145,21 @@
         "verdict": "asset",
         "category": "教程",
         "trigger": "",
-        "reason": "泛泛清单式教程，无原创观点或可补充的角度，属反seed特征",
+        "reason": "新媒体运营拆解教程，无原创观点，属于纯SOP类教程",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "telegram-0505",
+      "unit_id": "clippings-002",
       "ok": true,
       "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "环境决定论是底层规律，我可以补充个人如何利用环境变量而非对抗它",
-        "reason": "原创书评，反直觉但有论证，与长期主义/系统思维关注点重合",
+        "verdict": "asset",
+        "category": "工具",
+        "trigger": "",
+        "reason": "工具推荐无原创批判，但涉及用户日常工具，高优先级",
         "confidence": "high",
-        "priority": "normal"
+        "priority": "high"
       }
     },
     {
@@ -198,32 +168,8 @@
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "每个原则都可补充自动化检查或不一致控制，写成可复用context",
-        "reason": "与AI产品关注点重合，有具体可补充角度和实例",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-003",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "作者提出一人公司结构性机会，我可以补充实操中如何规避'Lock In'陷阱的视角",
-        "reason": "直撞关注点：一人公司+AI创业，提供可争议可补充的角度，信息密度高",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-012",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "15条路径实操案例详实，可针对Vibe Coding或AI放大的瓶颈与风险补充或批判",
-        "reason": "与用户AI、独立开发及商业模式关注点高度重合，内容具体可对话",
+        "trigger": "这六条原则很实用，我可以补充AI在‘品味’上的训练方法，以及如何通过反馈机制让AI学会共情。",
+        "reason": "与用户AI产品关注点重合，有原创观点和可补充角度",
         "confidence": "high",
         "priority": "normal"
       }
@@ -235,19 +181,31 @@
         "verdict": "asset",
         "category": "方法论",
         "trigger": "",
-        "reason": "介绍艾伦·阿尔达的沟通法则，属常识性方法论，无原创观点或可补充角度",
+        "reason": "经典沟通原则的泛泛描述，无具体视角或可争议角度",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "telegram-0070",
+      "unit_id": "telegram-0505",
+      "ok": true,
+      "verdict": {
+        "verdict": "archive",
+        "category": "",
+        "trigger": "",
+        "reason": "个人感悟类书评，与用户关注点（AI/Agent/营销）无关，无原创可争议论点",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-012",
       "ok": true,
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "作者总结的垂直AI产品共性很到位，我可以补充每个产品的具体机制和可复用的变现思路",
-        "reason": "与AI产品化和独立开发者关注点重合，有可补充角度",
+        "trigger": "AI工业化手艺是核心，但需补充竞争壁垒与内卷风险",
+        "reason": "15条路径具体可操作，核心论点明确，有可补充的批判角度",
         "confidence": "high",
         "priority": "normal"
       }
@@ -256,10 +214,22 @@
       "unit_id": "clippings-073",
       "ok": true,
       "verdict": {
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "系统性精力管理教程,有框架和操作步骤,属于SOP性质",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-003",
+      "ok": true,
+      "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "精力飞轮可迁移AI工作流：用Agent降切换成本",
-        "reason": "原创框架+可争议先修G1是否通用，非鸡汤清单",
+        "trigger": "窗口期论述有力，可补充落地门槛视角",
+        "reason": "与一人公司/AI创业关注点重合且可补充批判",
         "confidence": "high",
         "priority": "normal"
       }
@@ -270,21 +240,21 @@
       "verdict": {
         "verdict": "seed",
         "category": "对立",
-        "trigger": "作者对OpenClaw和Hermes的切换有实操反思，可补充Agent基建的SSOT方案对比",
-        "reason": "直接讨论在用工具，含机制拆解和原创观点",
+        "trigger": "SSOT单向同步可补充双向冗余的fallback机制",
+        "reason": "直接讨论在用工具切换，含原创批判与机制拆解",
         "confidence": "high",
         "priority": "high"
       }
     },
     {
-      "unit_id": "telegram-0354",
+      "unit_id": "telegram-0070",
       "ok": true,
       "verdict": {
         "verdict": "seed",
-        "category": "对立",
-        "trigger": "Agent项目用TS还是Python？我可以从独立开发者角度补充实际工程经验",
-        "reason": "直接讨论Agent开发技术选型，具反共识观点可深入探讨",
-        "confidence": "high",
+        "category": "共鸣补充",
+        "trigger": "垂直AI产品框架不错，可补充Glasp网络效应和Komiko变现路径",
+        "reason": "产品拆解+原创观点，可深入补充和讨论",
+        "confidence": "medium",
         "priority": "normal"
       }
     },
@@ -295,19 +265,7 @@
         "verdict": "asset",
         "category": "工具",
         "trigger": "",
-        "reason": "纯工具介绍和用法教程，无争议观点，归入asset",
-        "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-004",
-      "ok": true,
-      "verdict": {
-        "verdict": "asset",
-        "category": "教程",
-        "trigger": "",
-        "reason": "文章是春节短视频起号的方法论/教程，提供选题方向和人设公式，属于纯教程内容",
+        "reason": "纯工具推荐含教程流程，无原创观点可补充",
         "confidence": "high",
         "priority": "normal"
       }
@@ -319,7 +277,43 @@
         "verdict": "archive",
         "category": "",
         "trigger": "",
-        "reason": "读书感悟，与用户核心关注点无直接关联",
+        "reason": "读书感悟，与用户关注点无关，无系统可争议论点",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "clippings-004",
+      "ok": true,
+      "verdict": {
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "纯教程类营销内容，虽涉及增长关注点但无原创论点可补充",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "telegram-0354",
+      "ok": true,
+      "verdict": {
+        "verdict": "seed",
+        "category": "对立",
+        "trigger": "作者主张Agent全用TS，我可补充Python在数据处理和模型集成场景的优势",
+        "reason": "直接讨论Agent技术选型，原创观点清晰，可争议可补充",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "telegram-0100",
+      "ok": true,
+      "verdict": {
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "纯提示词模板分享，属于操作指南类，Step5命中",
         "confidence": "high",
         "priority": "normal"
       }
@@ -330,8 +324,8 @@
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "作者强调30岁是AI入场窗口，我可以补充如何构建系统化知识获取流程、避免被动焦虑",
-        "reason": "观点与用户关注点（AI/创业/长期主义）重合，且可补充更结构化的行动框架",
+        "trigger": "作者强调先上车是第一步，可以补充上车后的系统化过滤机制——用判别器区分seed/asset/archive",
+        "reason": "AI机遇观点与用户关注点重合，有可具体补充的角度",
         "confidence": "high",
         "priority": "normal"
       }
@@ -340,19 +334,25 @@
       "unit_id": "clippings-008",
       "ok": true,
       "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "爆文拆解框架实用，可以结合小红书‘活人感’补充信任前置",
-        "reason": "直击营销/用户心理关注点，框架可争议可补充",
-        "confidence": "medium",
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "纯公众号爆文写作教程，有方法论输出但不含原创可争议观点",
+        "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "telegram-0100",
-      "ok": false,
-      "error": "json: cannot parse JSON from: {\n  \"verdict\": \"asset\",\n  \"category\": \"教程\",\n  \"trigger\": \"\",\n  \"reason\": \"分享Cosplay",
-      "raw": "```json\n{\n  \"verdict\": \"asset\",\n  \"category\": \"教程\",\n  \"trigger\": \"\",\n  \"reason\": \"分享Cosplay"
+      "unit_id": "clippings-006",
+      "ok": true,
+      "verdict": {
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "纯教程/SOP，手把手教谷歌广告+联盟分销，有具体操作但非原创论点",
+        "confidence": "high",
+        "priority": "normal"
+      }
     },
     {
       "unit_id": "clippings-009",
@@ -360,8 +360,20 @@
       "verdict": {
         "verdict": "seed",
         "category": "共鸣补充",
-        "trigger": "CARD系统的A和R环节可以嵌入我的判别器分流逻辑，形成AI辅助的渐进式知识流",
-        "reason": "用户当前正在做Obsidian知识库改造，跟作者框架直接重合，可补充共鸣",
+        "trigger": "CARD 系统是可行的积累路径，我可以补充用 Agent 自动化捕捉与摘要环节，降低手动操作成本",
+        "reason": "与用户知识库/AI关注点直撞，有原创框架可补充",
+        "confidence": "high",
+        "priority": "normal"
+      }
+    },
+    {
+      "unit_id": "telegram-0392",
+      "ok": true,
+      "verdict": {
+        "verdict": "asset",
+        "category": "方法论",
+        "trigger": "",
+        "reason": "泛泛清单式的测试结论，无原创观点可补充",
         "confidence": "high",
         "priority": "normal"
       }
@@ -373,38 +385,32 @@
         "verdict": "asset",
         "category": "教程",
         "trigger": "",
-        "reason": "完整 AI 开发小程序 SOP，纯教程无原创观点",
+        "reason": "完整的微信小程序开发教程,含实操细节和注意事项",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "clippings-006",
-      "ok": false,
-      "error": "json: empty response",
-      "raw": ""
-    },
-    {
-      "unit_id": "clippings-023",
+      "unit_id": "telegram-0467",
       "ok": true,
       "verdict": {
         "verdict": "asset",
-        "category": "方法论",
+        "category": "工具",
         "trigger": "",
-        "reason": "资源清单无观点输出，属于泛泛清单类",
+        "reason": "介绍UI复刻工具designmd.me，工具/教程类",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "telegram-0392",
+      "unit_id": "clippings-011",
       "ok": true,
       "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "他的测试结果有参考价值，我可以补充不同内容生态（如抖音 vs 小红书）的流量机制对比",
-        "reason": "个人实测结论，可补充或批判，属于增长/营销关注点",
-        "confidence": "medium",
+        "verdict": "asset",
+        "category": "教程",
+        "trigger": "",
+        "reason": "自媒体写作框架教程，有数据支撑但属方法论输出，无原创可争议论点",
+        "confidence": "high",
         "priority": "normal"
       }
     },
@@ -415,19 +421,19 @@
         "verdict": "asset",
         "category": "方法论",
         "trigger": "",
-        "reason": "常见学习法共识堆叠，无拓展角度",
+        "reason": "泛泛的常识性清单，无具体观点或可补充角度",
         "confidence": "high",
         "priority": "normal"
       }
     },
     {
-      "unit_id": "telegram-0467",
+      "unit_id": "clippings-023",
       "ok": true,
       "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "designmd.me 降低设计门槛，但设计师价值仍在策略和体验，可补充这个维度",
-        "reason": "介绍AI设计工具并有观点冲击，可讨论自动化对设计师的影响",
+        "verdict": "asset",
+        "category": "方法论",
+        "trigger": "",
+        "reason": "泛泛清单，无作者原创观点，抓不出可补充角度",
         "confidence": "high",
         "priority": "normal"
       }
@@ -439,20 +445,8 @@
         "verdict": "asset",
         "category": "工具",
         "trigger": "",
-        "reason": "纯工具资讯，无原创观点，归入资产池",
+        "reason": "纯工具推荐/资讯，无原创观点或可补充角度",
         "confidence": "high",
-        "priority": "normal"
-      }
-    },
-    {
-      "unit_id": "clippings-011",
-      "ok": true,
-      "verdict": {
-        "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "同意框架可提升效率，但过度框架易失活人感，可补充如何平衡",
-        "reason": "可补充活人感角度，防止过度模板化",
-        "confidence": "medium",
         "priority": "normal"
       }
     },
@@ -461,73 +455,63 @@
       "ok": true,
       "verdict": {
         "verdict": "seed",
-        "category": "共鸣补充",
-        "trigger": "文章用杰文斯悖论反驳AI失业论，我可以补充自己的AI使用体验：效率提升反而增加了工作量和人际关系需求。",
-        "reason": "直接讨论AI对就业影响，与用户关注点吻合，含可补充的原创论证。",
+        "category": "对立",
+        "trigger": "作者用稀缺性理论和杰文斯悖论反驳AI失业论，可补充真实关系技能稀缺化的风险",
+        "reason": "高质量长篇观点文，含原创论证与引用，与AI关注点高度重合且可补充",
         "confidence": "high",
         "priority": "normal"
       }
     }
   ],
   "metrics": {
-    "n": 38,
-    "accuracy": 0.526,
+    "n": 37,
+    "accuracy": 0.784,
     "confusion_matrix": {
       "seed": {
-        "seed": 9,
+        "seed": 8,
         "asset": 0,
-        "archive": 0
+        "archive": 1
       },
       "asset": {
-        "seed": 11,
-        "asset": 10,
+        "seed": 4,
+        "asset": 18,
         "archive": 0
       },
       "archive": {
-        "seed": 7,
-        "asset": 0,
-        "archive": 1
+        "seed": 2,
+        "asset": 1,
+        "archive": 3
       }
     },
     "per_class": {
       "seed": {
-        "precision": 0.333,
-        "recall": 1.0,
-        "f1": 0.5,
-        "tp": 9,
-        "fp": 18,
-        "fn": 0
+        "precision": 0.571,
+        "recall": 0.889,
+        "f1": 0.696,
+        "tp": 8,
+        "fp": 6,
+        "fn": 1
       },
       "asset": {
-        "precision": 1.0,
-        "recall": 0.476,
-        "f1": 0.645,
-        "tp": 10,
-        "fp": 0,
-        "fn": 11
+        "precision": 0.947,
+        "recall": 0.818,
+        "f1": 0.878,
+        "tp": 18,
+        "fp": 1,
+        "fn": 4
       },
       "archive": {
-        "precision": 1.0,
-        "recall": 0.125,
-        "f1": 0.222,
-        "tp": 1,
-        "fp": 0,
-        "fn": 7
+        "precision": 0.75,
+        "recall": 0.5,
+        "f1": 0.6,
+        "tp": 3,
+        "fp": 1,
+        "fn": 3
       }
     },
-    "category_accuracy": 0.789,
+    "category_accuracy": 0.731,
     "priority_accuracy": 1.0,
     "mismatches": [
-      {
-        "unit_id": "clippings-007",
-        "golden_verdict": "archive",
-        "llm_verdict": "seed",
-        "golden_category": "",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "与宠物号关注点重合且可补充市场观察角度"
-      },
       {
         "unit_id": "clippings-077",
         "golden_verdict": "archive",
@@ -536,7 +520,17 @@
         "llm_category": "共鸣补充",
         "golden_priority": "normal",
         "llm_priority": "normal",
-        "reason": "与用户关注的营销/增长/商业模式重合，可补充具体操作细节"
+        "reason": "与用户商业模式/增长关注点重合，可补充AI自动化分发角度"
+      },
+      {
+        "unit_id": "clippings-099",
+        "golden_verdict": "seed",
+        "llm_verdict": "archive",
+        "golden_category": "共鸣补充",
+        "llm_category": "",
+        "golden_priority": "normal",
+        "llm_priority": "normal",
+        "reason": "宠物行业商业分析，与用户主要关注点（AI/Agent/独立开发）关联弱"
       },
       {
         "unit_id": "clippings-100",
@@ -546,17 +540,7 @@
         "llm_category": "共鸣补充",
         "golden_priority": "normal",
         "llm_priority": "normal",
-        "reason": "拆解了AI套利模式且涉及商业模式与用户心理，可补充正规化视角"
-      },
-      {
-        "unit_id": "clippings-109",
-        "golden_verdict": "archive",
-        "llm_verdict": "seed",
-        "golden_category": "",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "与用户宠物及商业模式关注点重合，有数据有痛点可补充批判角度"
+        "reason": "文章分析AI倒爷模式，与商业模式关注点重合，含可补充视角"
       },
       {
         "unit_id": "telegram-0442",
@@ -566,67 +550,17 @@
         "llm_category": "对立",
         "golden_priority": "high",
         "llm_priority": "high",
-        "reason": "直接讨论Claude Code使用方法，含原创批判和框架，工具元话题命中"
-      },
-      {
-        "unit_id": "telegram-0009",
-        "golden_verdict": "archive",
-        "llm_verdict": "seed",
-        "golden_category": "",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "直接关联副业出海方向,且有可补充的操作细节"
-      },
-      {
-        "unit_id": "clippings-001",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "教程",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "内容具体且含可补充点，涉及用户关注的增长/营销话题"
-      },
-      {
-        "unit_id": "telegram-0110",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "方法论",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "独立/一人创业路径有具体步骤，可争议可补充，符合用户关注点"
-      },
-      {
-        "unit_id": "clippings-002",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "工具",
-        "llm_category": "共鸣补充",
-        "golden_priority": "high",
-        "llm_priority": "high",
-        "reason": "命中工具元话题(Obsidian底座)且有原创观点"
+        "reason": "工具元话题+原创批判观点，命中Step3"
       },
       {
         "unit_id": "telegram-0445",
         "golden_verdict": "asset",
         "llm_verdict": "seed",
         "golden_category": "工具",
-        "llm_category": "共鸣补充",
+        "llm_category": "对立",
         "golden_priority": "high",
         "llm_priority": "high",
-        "reason": "直接讨论在用工具Claude Code的用法且有原创观点"
-      },
-      {
-        "unit_id": "telegram-0505",
-        "golden_verdict": "archive",
-        "llm_verdict": "seed",
-        "golden_category": "",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "原创书评，反直觉但有论证，与长期主义/系统思维关注点重合"
+        "reason": "直接讨论 Claude Code 结构设计，有原创批判和新框架"
       },
       {
         "unit_id": "clippings-012",
@@ -636,17 +570,17 @@
         "llm_category": "共鸣补充",
         "golden_priority": "normal",
         "llm_priority": "normal",
-        "reason": "与用户AI、独立开发及商业模式关注点高度重合，内容具体可对话"
+        "reason": "15条路径具体可操作，核心论点明确，有可补充的批判角度"
       },
       {
         "unit_id": "clippings-073",
         "golden_verdict": "archive",
-        "llm_verdict": "seed",
+        "llm_verdict": "asset",
         "golden_category": "",
-        "llm_category": "共鸣补充",
+        "llm_category": "教程",
         "golden_priority": "normal",
         "llm_priority": "normal",
-        "reason": "原创框架+可争议先修G1是否通用，非鸡汤清单"
+        "reason": "系统性精力管理教程,有框架和操作步骤,属于SOP性质"
       },
       {
         "unit_id": "clippings-005",
@@ -656,47 +590,7 @@
         "llm_category": "共鸣补充",
         "golden_priority": "normal",
         "llm_priority": "normal",
-        "reason": "观点与用户关注点（AI/创业/长期主义）重合，且可补充更结构化的行动框架"
-      },
-      {
-        "unit_id": "clippings-008",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "方法论",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "直击营销/用户心理关注点，框架可争议可补充"
-      },
-      {
-        "unit_id": "telegram-0392",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "方法论",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "个人实测结论，可补充或批判，属于增长/营销关注点"
-      },
-      {
-        "unit_id": "clippings-011",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "教程",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "可补充活人感角度，防止过度模板化"
-      },
-      {
-        "unit_id": "telegram-0467",
-        "golden_verdict": "asset",
-        "llm_verdict": "seed",
-        "golden_category": "工具",
-        "llm_category": "共鸣补充",
-        "golden_priority": "normal",
-        "llm_priority": "normal",
-        "reason": "介绍AI设计工具并有观点冲击，可讨论自动化对设计师的影响"
+        "reason": "AI机遇观点与用户关注点重合，有可具体补充的角度"
       }
     ]
   }

@@ -15,7 +15,7 @@ class ParserV03PromptTests(unittest.TestCase):
     def test_all_few_shot_outputs_are_valid_json(self):
         prompt = config.PARSER_PROMPT_PATH.read_text(encoding="utf-8")
         samples = re.findall(r"输出:\n(\{.*?\})\n```", prompt, flags=re.DOTALL)
-        self.assertEqual(len(samples), 7)
+        self.assertEqual(len(samples), 10)
         for sample in samples:
             parsed = json.loads(sample)
             self.assertIn(parsed["verdict"], {"seed", "asset", "archive"})
