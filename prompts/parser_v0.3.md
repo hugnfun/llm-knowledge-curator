@@ -163,6 +163,8 @@ START
   "category": "见上方分域表,archive 留空",
   "trigger": "(仅 seed 必填) ≤40字",
   "reason": "判别理由 ≤40字,archive/asset 也必填",
+  "summary": "内容摘要 ≤80字,archive 可留空",
+  "tags": ["3-5个标签"],
   "confidence": "high | medium | low",
   "priority": "high | normal"
 }
@@ -181,6 +183,8 @@ START
   "category": "共鸣补充",
   "trigger": "Obsidian 链接串联是好方法,我可以补充判别器架构这层——让 AI 先帮你挑,再链接",
   "reason": "跟用户当前知识库改造直撞,路线不同可对比",
+  "summary": "Obsidian笔记串联法:可检索、可串联、可行动的知识管理方法",
+  "tags": ["Obsidian", "知识管理", "笔记串联"],
   "confidence": "high",
   "priority": "normal"
 }

@@ -63,6 +63,8 @@ def _persist_verdict(unit: dict, result: dict):
         category=v.get("category", ""),
         trigger=v.get("trigger", ""),
         reason=v.get("reason", ""),
+        summary=v.get("summary", ""),
+        tags=v.get("tags", []),
         confidence=v.get("confidence", "medium"),
         priority=v.get("priority", "normal"),
     )

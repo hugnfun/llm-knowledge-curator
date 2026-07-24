@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS items (
     status      TEXT DEFAULT 'pending',
     parsed_at   TEXT,
     pooled_at   TEXT,
-    raw_content TEXT
+    raw_content TEXT,
+    summary     TEXT,
+    tags        TEXT
 );
 
 CREATE TABLE IF NOT EXISTS pipeline_runs (
@@ -127,7 +129,15 @@ def init_db(db_path: Optional[Path] = None) -> Path:
     path = db_path or config.DB_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
     with _get_conn(path) as c:
-        c.executescript(SCHEMA)
+        try:
+            c.executescript(SCHEMA)
+        except Exception:
+            pass  # indexes may fail on old schemas; migration below fixes columns
+        cols = {r[1] for r in c.execute("PRAGMA table_info(items)")}
+        if "summary" not in cols:
+            c.execute("ALTER TABLE items ADD COLUMN summary TEXT")
+        if "tags" not in cols:
+            c.execute("ALTER TABLE items ADD COLUMN tags TEXT")
     return path
 
 
@@ -205,12 +215,16 @@ def count_items(db_path=None) -> dict:
 
 
 def update_item_verdict(unit_id, verdict, category="", trigger="", reason="",
-                        confidence="", priority="normal", db_path=None):
+                        confidence="", priority="normal", summary="", tags=None,
+                        db_path=None):
+    import json as _json
+    tags_str = _json.dumps(tags, ensure_ascii=False) if tags else ""
     with get_conn(db_path) as c:
         c.execute("""UPDATE items SET verdict=?, category=?, trigger=?, reason=?,
-                     confidence=?, priority=?, parsed_at=? WHERE unit_id=?""",
+                     confidence=?, priority=?, summary=?, tags=?, parsed_at=? WHERE unit_id=?""",
                   (verdict, category, trigger, reason, confidence, priority,
-                   _now()[:10], unit_id))
+                   summary, tags_str, _now()[:10], unit_id))
+
 
 
 def update_item_status(unit_id, status, db_path=None):
