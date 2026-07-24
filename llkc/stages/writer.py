@@ -38,11 +38,30 @@ def extract_seeds_section(text: str) -> str:
 def generate_drafts(free_write: str, seeds_section: str, target_date: str,
                      model: str = None, db_path: Path = None) -> dict:
     system_prompt = config.WRITER_PROMPT_PATH.read_text(encoding="utf-8")
+
+    # Stage 5: inject published drafts as few-shot examples
+    few_shot_block = ""
+    try:
+        published = db.get_drafts(status="published", db_path=db_path)
+        if published:
+            top = published[:3]
+            few_shot_lines = ["\n## 历史终稿参考(few-shot)\n"]
+            for p in top:
+                few_shot_lines.append(
+                    f"### {p.get('angle_name','')}\n"
+                    f"**headline**: {p.get('headline','')}\n"
+                    f"**body**: {(p.get('body','') or '')[:200]}...\n"
+                )
+            few_shot_block = "\n".join(few_shot_lines) + "\n"
+    except Exception:
+        pass
+
     user_msg = (
         f"# Daily Thinking ({target_date})\n\n"
         f"## Free Write\n\n{free_write}\n\n"
-        f"## Seeds\n\n{seeds_section}\n\n---\n\n"
-        f"Generate 4 angle drafts per writer_v0.1 spec."
+        f"## Seeds\n\n{seeds_section}\n\n"
+        f"{few_shot_block}"
+        f"---\n\nGenerate 4 angle drafts per writer_v0.1 spec."
     )
     messages = [
         {"role": "system", "content": system_prompt},

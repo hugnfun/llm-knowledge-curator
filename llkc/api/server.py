@@ -284,6 +284,14 @@ def patch_draft_status(draft_id: str, body: DraftStatusUpdate):
             return {"ok": True, "status": body.status, "polish": result}
         except Exception as e:
             return {"ok": True, "status": body.status, "polish_error": str(e)}
+    # Auto-trigger publish archive when status -> published
+    if body.status == "published":
+        try:
+            from ..stages import polish as polish_stage
+            result = polish_stage.publish_draft(draft_id)
+            return {"ok": True, "status": body.status, "publish": result}
+        except Exception as e:
+            return {"ok": True, "status": body.status, "publish_error": str(e)}
     return {"ok": True}
 
 
@@ -293,6 +301,15 @@ def polish_draft_endpoint(draft_id: str):
     result = polish_stage.polish_draft(draft_id)
     if not result.get("ok"):
         raise HTTPException(400, result.get("error", "polish failed"))
+    return result
+
+
+@app.post("/api/drafts/{draft_id}/produce-assets")
+def produce_assets_endpoint(draft_id: str):
+    from ..stages import asset_produce as asset_stage
+    result = asset_stage.run(draft_id)
+    if not result.get("ok"):
+        raise HTTPException(400, result.get("error", "asset production failed"))
     return result
 
 

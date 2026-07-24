@@ -83,3 +83,59 @@ def run(draft_id: str = None, db_path: Path = None) -> dict:
                 "failed": len([r for r in results if not r.get("ok")]),
                 "results": results}
     return polish_draft(draft_id, db_path)
+
+
+def publish_draft(draft_id: str, db_path: Path = None) -> dict:
+    """Archive a published draft: save original + final + diff to vault."""
+    import difflib
+    from .. import config
+    all_drafts = db.get_drafts(db_path=db_path)
+    draft = next((d for d in all_drafts if d["id"] == draft_id), None)
+    if not draft:
+        return {"ok": False, "error": f"draft {draft_id} not found"}
+
+    original = draft.get("original_body") or draft.get("body", "")
+    final = draft.get("body", "")
+    headline = draft.get("headline", "")
+
+    # Generate diff
+    diff_lines = list(difflib.unified_diff(
+        original.splitlines(keepends=True),
+        final.splitlines(keepends=True),
+        fromfile="original", tofile="polished", n=1
+    ))
+    diff_text = "".join(diff_lines) if diff_lines else "(no changes)"
+
+    # Write to vault
+    config.PUBLISHED_ROOT.mkdir(parents=True, exist_ok=True)
+    safe_date = draft.get("thinking_date", "")
+    aid = draft.get("angle_id", "X")
+    slug = f"{safe_date}-{aid}" if safe_date else draft_id
+    out = config.PUBLISHED_ROOT / f"{slug}.md"
+
+    fm = (
+        "---\n"
+        f"type: published\n"
+        f"draft_id: {draft_id}\n"
+        f"date: {safe_date}\n"
+        f"angle: {draft.get('angle_name', '')}\n"
+        f"headline: {headline}\n"
+        "---\n"
+    )
+    body = (
+        f"\n# {headline}\n\n"
+        f"## 终稿\n\n{final}\n\n"
+        f"---\n\n"
+        f"## 原稿\n\n{original}\n\n"
+        f"---\n\n"
+        f"## Diff\n\n```diff\n{diff_text}\n```\n"
+    )
+    out.write_text(fm + body, encoding="utf-8")
+
+    db.update_draft_status(draft_id, "published", db_path=db_path)
+    db.log_event(EventType.DRAFT_GENERATED.value,
+                 item_id=draft_id,
+                 payload={"action": "publish", "path": str(out)},
+                 db_path=db_path)
+
+    return {"ok": True, "draft_id": draft_id, "path": str(out), "diff_lines": len(diff_lines)}

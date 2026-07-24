@@ -374,6 +374,7 @@ async function loadDraftsForDate(targetDate) {
           <span class="tag ${d.status === 'selected' ? 'tag-seed' : d.status === 'polished' ? 'tag-asset' : ''}">${escapeHtml(d.status || 'candidate')}</span>
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'selected')">Select</button>
           ${d.status === 'selected' || d.status === 'candidate' ? `<button class="btn btn-sm" onclick="polishDraft('${d.id}')">Polish</button>` : ""}
+          ${d.status === 'polished' ? `<button class="btn btn-sm" onclick="produceAssets('${d.id}')">Assets</button>` : ""}
           ${d.status === 'polished' ? `<button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'published')">Publish</button>` : ""}
           <button class="btn btn-sm" onclick="updateDraftStatus('${d.id}', 'dismissed')">Dismiss</button>
         </div>
@@ -381,6 +382,21 @@ async function loadDraftsForDate(targetDate) {
     `).join("") || "<div style='color:#8a8378;padding:16px;'>No drafts. Click Generate.</div>";
   } catch(e) { toast("Failed: " + e.message, "error"); }
 }
+
+window.produceAssets = async function(draftId) {
+  toast("Generating image prompts...");
+  try {
+    const r = await api("/api/drafts/" + draftId + "/produce-assets", {method: "POST"});
+    if (r.ok) {
+      toast("Generated " + r.image_count + " image prompts");
+      console.log("Asset prompts:", r.prompts);
+    } else {
+      toast("Asset production failed", "error");
+    }
+  } catch (e) {
+    toast("Failed: " + e.message, "error");
+  }
+};
 
 window.polishDraft = async function(draftId) {
   toast("Polishing draft (may take 10-30s)...");

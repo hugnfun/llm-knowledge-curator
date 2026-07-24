@@ -33,6 +33,7 @@ THINKING_ROOT: Path = VAULT_ROOT / "02-思考"
 DRAFTS_ROOT: Path = VAULT_ROOT / "02-Drafts"
 ASSET_ROOT: Path = VAULT_ROOT / "03-Assets"
 ARCHIVE_ROOT: Path = VAULT_ROOT / "04-Archive"
+PUBLISHED_ROOT: Path = VAULT_ROOT / "06-Published"
 TASKS_ROOT: Path = VAULT_ROOT / "05-Tasks"
 
 OUTPUT_DIR: Path = PROJ_ROOT / "output"
