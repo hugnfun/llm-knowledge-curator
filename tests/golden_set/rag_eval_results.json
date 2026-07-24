@@ -1,0 +1,358 @@
+{
+  "results": [
+    {
+      "unit_id": "clippings-062",
+      "title": "利用吉卜力,我找到了下一个爆火的SEO关键词",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "marketing_seo",
+          0.4393
+        ],
+        [
+          "ai_agent",
+          0.3853
+        ],
+        [
+          "xiaohongshu",
+          0.36
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "marketing_seo",
+          4.0
+        ],
+        [
+          "ai_agent",
+          1.0
+        ],
+        [
+          "systems_thinking",
+          1.0
+        ]
+      ],
+      "best_embedding_match": "marketing_seo",
+      "best_keyword_match": "marketing_seo",
+      "embedding_top1_score": 0.4393
+    },
+    {
+      "unit_id": "clippings-099",
+      "title": "暴利的宠物，大厂的坟墓",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "pet_account",
+          0.4005
+        ],
+        [
+          "indie_dev",
+          0.3206
+        ],
+        [
+          "xiaohongshu",
+          0.2992
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "indie_dev",
+          1.0
+        ],
+        [
+          "xiaohongshu",
+          1.0
+        ],
+        [
+          "pet_account",
+          1.0
+        ]
+      ],
+      "best_embedding_match": "pet_account",
+      "best_keyword_match": "indie_dev",
+      "embedding_top1_score": 0.4005
+    },
+    {
+      "unit_id": "telegram-0442",
+      "title": "如何使用 Codex 快速入门任何一个领域",
+      "golden_verdict": "asset",
+      "golden_category": "工具",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.6413
+        ],
+        [
+          "indie_dev",
+          0.3247
+        ],
+        [
+          "xiaohongshu",
+          0.2981
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          3.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.6413
+    },
+    {
+      "unit_id": "clippings-019",
+      "title": "Gemini3+飞书多维表格，批量扒抖音爆款&自动二创，太爽了！【喂饭级教程】",
+      "golden_verdict": "asset",
+      "golden_category": "教程",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.4656
+        ],
+        [
+          "xiaohongshu",
+          0.368
+        ],
+        [
+          "pet_account",
+          0.3059
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          3.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.4656
+    },
+    {
+      "unit_id": "telegram-0407",
+      "title": "与 AI 一起做产品的六条原则",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "indie_dev",
+          0.3945
+        ],
+        [
+          "ai_agent",
+          0.3732
+        ],
+        [
+          "systems_thinking",
+          0.3328
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          2.0
+        ]
+      ],
+      "best_embedding_match": "indie_dev",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.3945
+    },
+    {
+      "unit_id": "clippings-003",
+      "title": "2026 年是个临界点：利用 AI 工具的 1 人公司或小规模公司能创造数百万美元的收入",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "indie_dev",
+          0.5036
+        ],
+        [
+          "ai_agent",
+          0.4467
+        ],
+        [
+          "xiaohongshu",
+          0.2977
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "indie_dev",
+          5.0
+        ],
+        [
+          "ai_agent",
+          3.0
+        ]
+      ],
+      "best_embedding_match": "indie_dev",
+      "best_keyword_match": "indie_dev",
+      "embedding_top1_score": 0.5036
+    },
+    {
+      "unit_id": "telegram-0070",
+      "title": "这两天顺着 toolify 榜单又挖了 7 个还挺有意思的垂直 AI 产品，随手记个小结👇",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.5255
+        ],
+        [
+          "indie_dev",
+          0.4177
+        ],
+        [
+          "xiaohongshu",
+          0.3578
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          1.0
+        ],
+        [
+          "xiaohongshu",
+          1.0
+        ],
+        [
+          "marketing_seo",
+          1.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.5255
+    },
+    {
+      "unit_id": "telegram-0090",
+      "title": "有点不想承认，但现在的事实是：",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.5569
+        ],
+        [
+          "indie_dev",
+          0.3097
+        ],
+        [
+          "systems_thinking",
+          0.2601
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          2.0
+        ],
+        [
+          "indie_dev",
+          1.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.5569
+    },
+    {
+      "unit_id": "telegram-0354",
+      "title": "昨天见了一个非常牛逼的Agent团队，我敢说在国内绝对是T0的级别（之前DPSK还找他们搞了点Age",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.5298
+        ],
+        [
+          "indie_dev",
+          0.3298
+        ],
+        [
+          "xiaohongshu",
+          0.293
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          3.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.5298
+    },
+    {
+      "unit_id": "telegram-0218",
+      "title": "时报作家Ezra Klein写了一篇专栏，说根据他的采访记录，AI导致大规模失业的情况可能还没有那么",
+      "golden_verdict": "seed",
+      "golden_category": "共鸣补充",
+      "embedding_top3": [
+        [
+          "ai_agent",
+          0.4103
+        ],
+        [
+          "xiaohongshu",
+          0.3246
+        ],
+        [
+          "marketing_seo",
+          0.2687
+        ]
+      ],
+      "keyword_top3": [
+        [
+          "ai_agent",
+          1.0
+        ]
+      ],
+      "best_embedding_match": "ai_agent",
+      "best_keyword_match": "ai_agent",
+      "embedding_top1_score": 0.4103
+    }
+  ],
+  "project_profiles": [
+    {
+      "id": "ai_agent",
+      "name": "AI/Agent/自动化",
+      "text": "AI Agent MCP 自动化工作流 知识库 Claude Code Codex Cursor Agent架构 工具调用 LLM应用"
+    },
+    {
+      "id": "indie_dev",
+      "name": "独立开发/SaaS",
+      "text": "独立开发 SaaS 一人公司 商业模式 独立开发者 产品验证 MVP 订阅制 结果导向定价"
+    },
+    {
+      "id": "xiaohongshu",
+      "name": "小红书/活人感",
+      "text": "小红书 小绿书 活人感 原生感 内容营销 自媒体 爆文 公众号 写作 短视频"
+    },
+    {
+      "id": "pet_account",
+      "name": "抖音宠物账号",
+      "text": "抖音宠物账号 萨摩耶 宠物内容 宠物IP 萌宠视频 宠物经济 养狗"
+    },
+    {
+      "id": "marketing_seo",
+      "name": "营销/增长/SEO",
+      "text": "营销 用户心理 增长 SEO 流量 关键词 转化 投流 引流 增长黑客"
+    },
+    {
+      "id": "systems_thinking",
+      "name": "系统思维/长期主义",
+      "text": "第一性原理 系统思维 长期主义 底层规律 认知框架 反直觉 方法论 飞轮模型"
+    }
+  ]
+}
